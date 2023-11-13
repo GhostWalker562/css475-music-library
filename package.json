@@ -1,0 +1,49 @@
+{
+	"name": "css475-music-library",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write .",
+		"db:generate": "drizzle-kit generate:mysql",
+		"db:introspect": "drizzle-kit introspect:mysql",
+		"db:setup": "bun run ./scripts/setup_db.ts",
+		"db:seed": "bun run ./scripts/seed_db.ts"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^2.1.1",
+		"@sveltejs/kit": "^1.27.5",
+		"@types/node": "^20.9.0",
+		"@typescript-eslint/eslint-plugin": "^6.10.0",
+		"@typescript-eslint/parser": "^6.10.0",
+		"autoprefixer": "^10.4.16",
+		"dotenv": "^16.3.1",
+		"drizzle-kit": "^0.20.1",
+		"eslint": "^8.53.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-svelte": "^2.35.0",
+		"postcss": "^8.4.31",
+		"prettier": "^3.0.3",
+		"prettier-plugin-svelte": "^3.1.0",
+		"svelte": "^4.2.3",
+		"svelte-check": "^3.6.0",
+		"tailwindcss": "^3.3.5",
+		"tslib": "^2.6.2",
+		"typescript": "^5.2.2",
+		"vite": "^4.5.0",
+		"zod": "^3.22.4"
+	},
+	"type": "module",
+	"dependencies": {
+		"@lucia-auth/adapter-mysql": "^2.1.0",
+		"@planetscale/database": "^1.11.0",
+		"drizzle-orm": "^0.29.0",
+		"drizzle-zod": "^0.5.1",
+		"lucia": "^2.7.4"
+	}
+}
