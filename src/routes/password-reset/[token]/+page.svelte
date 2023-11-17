@@ -43,6 +43,7 @@
 							autocomplete="off"
 							placeholder="Password"
 							name="password"
+							id="password"
 							required
 						/>
 						{#if form?.form?.errors.password}

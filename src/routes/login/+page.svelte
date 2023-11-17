@@ -40,7 +40,14 @@
 				<Card.Content class="flex flex-col gap-4">
 					<div class="grid gap-2">
 						<Label for="email">Email</Label>
-						<Input type="text" autocomplete="off" placeholder="Email" name="email" required />
+						<Input
+							type="text"
+							autocomplete="off"
+							placeholder="Email"
+							name="email"
+							id="email"
+							required
+						/>
 						{#if form?.form?.errors.email}
 							<p class="text-xs text-red-600">{form.form.errors.email}</p>
 						{/if}
@@ -53,6 +60,7 @@
 							autocomplete="off"
 							placeholder="Password"
 							name="password"
+							id="password"
 							required
 						/>
 						<a href="/password-reset" class=" text-xs"
