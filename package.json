@@ -13,7 +13,8 @@
 		"db:generate": "drizzle-kit generate:mysql",
 		"db:introspect": "drizzle-kit introspect:mysql",
 		"db:setup": "bun run ./scripts/setup_db.ts",
-		"db:seed": "bun run ./scripts/seed_db.ts"
+		"db:seed": "bun run ./scripts/seed_db.ts",
+		"db:id": "bun run ./scripts/random_id.ts"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.1",
