@@ -15,6 +15,17 @@ declare global {
 		type Auth = import('$lib/server/lucia').Auth;
 		type DatabaseUserAttributes = import('$lib/db/schema').UserAttributes;
 	}
+
+	interface ViewTransition {
+		updateCallbackDone: Promise<void>;
+		ready: Promise<void>;
+		finished: Promise<void>;
+		skipTransition: () => void;
+	}
+
+	interface Document {
+		startViewTransition(updateCallback: () => Promise<void>): ViewTransition;
+	}
 }
 
 export {};

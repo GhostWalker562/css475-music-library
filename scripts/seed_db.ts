@@ -3,7 +3,7 @@ import { connect } from '@planetscale/database';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const query = await fs.readFile(`${__dirname}/seed/seed_table_data.sql`, { encoding: 'utf-8' });
+const query = await fs.readFile(`${__dirname}/seed/insert_table_data.sql`, { encoding: 'utf-8' });
 
 const connection = connect({ url: process.env.DATABASE_URL });
 

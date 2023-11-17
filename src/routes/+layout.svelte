@@ -1,5 +1,11 @@
 <script>
-	import '../app.css';
+	import ViewTransition from '$lib/components/ViewTransition.svelte';
+	import '../app.postcss';
+	import { ModeWatcher } from 'mode-watcher';
 </script>
 
-<slot />
+<ModeWatcher />
+
+<div class="min-h-screen">
+	<slot />
+</div>

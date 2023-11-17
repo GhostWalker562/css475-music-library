@@ -10,8 +10,8 @@ export const auth = lucia({
 	getUserAttributes: (userData) => ({
 		username: userData.username,
 		email: userData.email,
-		profileImageUrl: userData.profileImageUrl,
-		createdAt: userData.createdAt
+		profileImageUrl: userData.profile_image_url,
+		createdAt: userData.created_at
 	}),
 	middleware: sveltekit()
 });

@@ -42,8 +42,16 @@
 	"dependencies": {
 		"@lucia-auth/adapter-mysql": "^2.1.0",
 		"@planetscale/database": "^1.11.0",
+		"@sendgrid/mail": "^7.7.0",
+		"bits-ui": "^0.9.8",
+		"clsx": "^2.0.0",
 		"drizzle-orm": "^0.29.0",
 		"drizzle-zod": "^0.5.1",
-		"lucia": "^2.7.4"
+		"lucia": "^2.7.4",
+		"lucide-svelte": "^0.292.0",
+		"mode-watcher": "^0.1.1",
+		"sveltekit-superforms": "^1.10.2",
+		"tailwind-merge": "^2.0.0",
+		"tailwind-variants": "^0.1.18"
 	}
 }

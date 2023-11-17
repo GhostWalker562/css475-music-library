@@ -1,2 +1,9 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { enhance } from '$app/forms';
+</script>
+
+<h1 class="my-4 font-semibold">Logged in!</h1>
+
+<form action="?/logout" method="post" use:enhance>
+	<button class="btn btn-error" type="submit">Logout</button>
+</form>
