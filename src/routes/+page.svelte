@@ -1,9 +1,14 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import Menu from '$lib/components/Menu.svelte';
+	import ViewTransition from '$lib/components/ViewTransition.svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
-<h1 class="my-4 font-semibold">Logged in!</h1>
+<ViewTransition />
 
-<form action="?/logout" method="post" use:enhance>
-	<button class="btn btn-error" type="submit">Logout</button>
-</form>
+<!-- Navigation Bar -->
+<Menu user={data.user} />
+
+<h1 class="my-4 font-semibold">Logged in!</h1>

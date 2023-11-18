@@ -8,7 +8,7 @@ export const load = (async ({ locals }) => {
 
 	if (!session) throw redirect(303, '/login');
 
-	return {};
+	return { user: session.user };
 }) satisfies PageServerLoad;
 
 export const actions = {
