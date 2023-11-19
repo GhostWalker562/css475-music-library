@@ -1,21 +1,32 @@
 import { sql } from 'drizzle-orm';
-import { bigint, mysqlTable, timestamp, varchar } from 'drizzle-orm/mysql-core';
+import {
+	bigint,
+	int,
+	mysqlEnum,
+	mysqlTable,
+	primaryKey,
+	timestamp,
+	unique,
+	varchar
+} from 'drizzle-orm/mysql-core';
 import { createSelectSchema } from 'drizzle-zod';
 import type { z } from 'zod';
 
 // Note: PlanetScale does not support foreign keys, that's why the references() method is commented out.
 
-// table definitions
+// auth definitions
+
+const createdAt = timestamp('created_at')
+	.notNull()
+	.default(sql`CURRENT_TIMESTAMP`);
 
 export const user = mysqlTable('auth_user', {
 	id: varchar('id', { length: 15 }).primaryKey(),
 	// other user attributes
 	username: varchar('username', { length: 55 }).notNull(),
 	email: varchar('email', { length: 255 }).unique().notNull(),
-	createdAt: timestamp('created_at')
-		.notNull()
-		.default(sql`CURRENT_TIMESTAMP`),
-	profileImageUrl: varchar('profile_image_url', { length: 255 })
+	profileImageUrl: varchar('profile_image_url', { length: 255 }),
+	createdAt
 });
 
 export const session = mysqlTable('user_session', {
@@ -39,6 +50,92 @@ export const passwordReset = mysqlTable('password_reset', {
 	userId: varchar('user_id', { length: 15 }).notNull()
 	// .references(() => user.id),
 });
+
+// application tables
+
+export const artist = mysqlTable('artist', {
+	id: varchar('id', { length: 15 }).primaryKey(),
+	// .references(() => user.id),
+	bio: varchar('bio', { length: 400 }),
+	name: varchar('name', { length: 100 }).notNull()
+});
+
+export const album = mysqlTable('album', {
+	id: varchar('id', { length: 128 }).primaryKey(),
+	artistId: varchar('artist_id', { length: 15 }).notNull(),
+	// .references(() => artist.id),
+	name: varchar('name', { length: 200 }).notNull(),
+	coverImageUrl: varchar('cover_image_url', { length: 255 }),
+	createdAt
+});
+
+export const song = mysqlTable('song', {
+	id: varchar('id', { length: 128 }).primaryKey(),
+	name: varchar('name', { length: 150 }).notNull(),
+	artistId: varchar('artist_id', { length: 15 }).notNull(),
+	// .references(() => artist.id),
+	duration: int('duration').notNull(),
+	genre: mysqlEnum('genre', ['COUNTRY', 'POP', 'RAP', 'ROCK', 'CLASSICAL', 'JAZZ']).notNull(),
+	createdAt
+});
+
+export const playlist = mysqlTable('playlist', {
+	id: varchar('id', { length: 128 }).primaryKey(),
+	name: varchar('name', { length: 150 }).notNull(),
+	creatorId: varchar('creator_id', { length: 15 }).notNull(),
+	// .references(() => user.id),
+	createdAt
+});
+
+// index tables
+
+export const userSongRecommendations = mysqlTable(
+	'user_song_recommendations',
+	{
+		id: varchar('id', { length: 128 }).notNull(),
+		userId: varchar('user_id', { length: 15 }).notNull(),
+		// .references(() => user.id),
+		songId: varchar('song_id', { length: 128 }).notNull(),
+		// .references(() => song.id),
+		createdAt
+	},
+	(t) => ({ pk: primaryKey({ columns: [t.id, t.userId, t.songId] }) })
+);
+
+export const playlistSongs = mysqlTable(
+	'playlist_songs',
+	{
+		playlistId: varchar('playlist_id', { length: 128 }).notNull(),
+		// .references(() => playlist.id),
+		songId: varchar('song_id', { length: 128 }).notNull(),
+		// .references(() => song.id),
+		order: int('order').notNull().default(0)
+	},
+	(t) => ({ pk: primaryKey({ columns: [t.playlistId, t.songId] }) })
+);
+
+export const albumSongs = mysqlTable(
+	'album_songs',
+	{
+		albumId: varchar('album_id', { length: 128 }).notNull(),
+		// .references(() => album.id),
+		songId: varchar('song_id', { length: 128 }).notNull(),
+		// .references(() => song.id),
+		order: int('order').notNull().default(0)
+	},
+	(t) => ({ pk: primaryKey({ columns: [t.albumId, t.songId] }), unq: unique().on(t.songId) })
+);
+
+export const userLikes = mysqlTable(
+	'user_likes',
+	{
+		userId: varchar('user_id', { length: 15 }).notNull(),
+		// .references(() => user.id),
+		albumId: varchar('song_id', { length: 128 }).notNull()
+		// .references(() => song.id),
+	},
+	(t) => ({ pk: primaryKey({ columns: [t.userId, t.albumId] }) })
+);
 
 // zod schemas
 

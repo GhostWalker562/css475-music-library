@@ -12,9 +12,11 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"db:generate": "drizzle-kit generate:mysql",
 		"db:introspect": "drizzle-kit introspect:mysql",
-		"db:setup": "bun run ./scripts/setup_db.ts",
-		"db:seed": "bun run ./scripts/seed_db.ts",
-		"db:id": "bun run ./scripts/random_id.ts"
+		"db:seed": "bun run ./scripts/setup_db.ts; bun run ./scripts/seed_db.ts",
+		"db:songs": "bun run ./scripts/create_kaggle_inserts.ts ",
+		"docker:up": "docker-compose up -d",
+		"docker:down": "docker-compose down",
+		"docker:restart": "bun run docker:down && bun run docker:up"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.1",
@@ -23,6 +25,7 @@
 		"@typescript-eslint/eslint-plugin": "^6.10.0",
 		"@typescript-eslint/parser": "^6.10.0",
 		"autoprefixer": "^10.4.16",
+		"csv-parse": "^5.5.2",
 		"dotenv": "^16.3.1",
 		"drizzle-kit": "^0.20.1",
 		"eslint": "^8.53.0",
@@ -36,8 +39,7 @@
 		"tailwindcss": "^3.3.5",
 		"tslib": "^2.6.2",
 		"typescript": "^5.2.2",
-		"vite": "^4.5.0",
-		"zod": "^3.22.4"
+		"vite": "^4.5.0"
 	},
 	"type": "module",
 	"dependencies": {
@@ -51,8 +53,10 @@
 		"lucia": "^2.7.4",
 		"lucide-svelte": "^0.292.0",
 		"mode-watcher": "^0.1.1",
+		"mysql2": "^3.6.3",
 		"sveltekit-superforms": "^1.10.2",
 		"tailwind-merge": "^2.0.0",
-		"tailwind-variants": "^0.1.18"
+		"tailwind-variants": "^0.1.18",
+		"zod": "^3.22.4"
 	}
 }

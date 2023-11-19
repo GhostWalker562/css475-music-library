@@ -10,5 +10,3 @@ export const generateRandomString = (length: number, alphabet = DEFAULT_ALPHABET
 	}
 	return result;
 };
-
-console.log('Random ID', generateRandomString(15));

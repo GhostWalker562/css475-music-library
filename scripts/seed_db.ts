@@ -1,15 +1,24 @@
 import { promises as fs } from 'fs';
 import { connect } from '@planetscale/database';
 import * as dotenv from 'dotenv';
+import { executeQuery } from './utils/executeQuery';
 dotenv.config();
 
-const query = await fs.readFile(`${__dirname}/seed/insert_table_data.sql`, { encoding: 'utf-8' });
+const tableQuery = await fs.readFile(`${__dirname}/seed/insert_table_data.sql`, {
+	encoding: 'utf-8'
+});
+const songsQuery = await fs.readFile(`${__dirname}/seed/insert_songs.sql`, {
+	encoding: 'utf-8'
+});
 
 const connection = connect({ url: process.env.DATABASE_URL });
 
-console.log('Executing query...');
+console.log('Seeding DB...');
 
-const statements = query.split(/;\s*$/gm).filter((statement) => statement.trim() !== '');
-for (const statement of statements) await connection.execute(statement);
+await executeQuery(tableQuery, connection, false);
+console.log('Inserted table data!');
+
+await executeQuery(songsQuery, connection, false);
+console.log('Inserted songs data!');
 
 console.log('Seeded database!');

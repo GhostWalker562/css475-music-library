@@ -1,15 +1,15 @@
 import { promises as fs } from 'fs';
 import * as dotenv from 'dotenv';
 import { connect } from '@planetscale/database';
+import { executeQuery } from './utils/executeQuery';
 dotenv.config();
 
 const query = await fs.readFile(`${__dirname}/seed/create_tables.sql`, { encoding: 'utf-8' });
 
 const connection = connect({ url: process.env.DATABASE_URL });
 
-console.log('Executing query...');
+console.log('Setting up DB...');
 
-const statements = query.split(/;\s*$/gm).filter((statement) => statement.trim() !== '');
-for (const statement of statements) await connection.execute(statement);
+await executeQuery(query, connection);
 
 console.log('Tables created!');

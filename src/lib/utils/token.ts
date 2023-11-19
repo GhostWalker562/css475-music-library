@@ -36,7 +36,7 @@ export const validatePasswordResetToken = async (token: string) => {
 			where: eq(passwordReset.id, token)
 		});
 		if (!storedToken) throw new Error('Invalid token');
-		tx.delete(passwordReset).where(eq(passwordReset.id, storedToken.id));
+		await tx.delete(passwordReset).where(eq(passwordReset.id, storedToken.id));
 		return storedToken;
 	});
 	const tokenExpires = Number(storedToken.expires); // bigint => number conversion

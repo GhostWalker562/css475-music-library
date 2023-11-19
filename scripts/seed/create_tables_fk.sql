@@ -37,7 +37,7 @@ CREATE TABLE `user_key` (
     `user_id` varchar(15) NOT NULL,
     `hashed_password` varchar(255),
     CONSTRAINT `user_key_id` PRIMARY KEY(`id`),
-    KEY `user_key_idx` (`user_id`) -- references `auth_user` (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 );
 
 CREATE TABLE `user_session` (
@@ -46,7 +46,7 @@ CREATE TABLE `user_session` (
     `active_expires` bigint NOT NULL,
     `idle_expires` bigint NOT NULL,
     CONSTRAINT `user_session_id` PRIMARY KEY(`id`),
-    KEY `user_session_idx` (`user_id`) -- references `auth_user` (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 );
 
 CREATE TABLE `password_reset` (
@@ -54,7 +54,7 @@ CREATE TABLE `password_reset` (
     `expires` bigint NOT NULL,
     `user_id` varchar(15) NOT NULL,
     CONSTRAINT `password_reset_id` PRIMARY KEY(`id`),
-    KEY `user_password_reset_idx` (`user_id`) -- references `auth_user` (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 );
 
 -- Application Tables
@@ -63,7 +63,7 @@ CREATE TABLE `artist`(
     `bio` varchar(400) NOT NULL,
     `name` varchar(100) NOT NULL,
     CONSTRAINT `artist_id_pk` PRIMARY KEY (`id`),
-    KEY `artist_idx` (`id`) -- references `auth_user` (`id`)
+    FOREIGN KEY (`id`) REFERENCES `auth_user` (`id`)
 );
 
 CREATE TABLE `album`(
@@ -73,7 +73,7 @@ CREATE TABLE `album`(
     `name` varchar(200) NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `albums_id_pk` PRIMARY KEY (`id`),
-    KEY `album_idx` (`artist_id`) -- references `artist` (`id`)
+    FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
 );
 
 CREATE TABLE `song` (
@@ -91,7 +91,7 @@ CREATE TABLE `song` (
     ) NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `songs_id_pk` PRIMARY KEY (`id`),
-    KEY `song_idx` (`artist_id`) -- references `artist` (`id`)
+    FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
 );
 
 CREATE TABLE `playlist` (
@@ -100,7 +100,7 @@ CREATE TABLE `playlist` (
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `creator_id` varchar(128) NOT NULL,
     CONSTRAINT `playlists_id_pk` PRIMARY KEY (`id`),
-    KEY `playlist_idx` (`creator_id`) -- references `auth_user` (`id`)
+    FOREIGN KEY (`creator_id`) REFERENCES `auth_user` (`id`)
 );
 
 -- Index Tables
@@ -110,7 +110,7 @@ CREATE TABLE `album_songs` (
     `order` int NOT NULL DEFAULT 0,
     CONSTRAINT `album_songs_album_id_song_id_pk` PRIMARY KEY(`album_id`, `song_id`),
     UNIQUE (song_id),
-    KEY `album_songs_idx` (`album_id`, `song_id`) -- references `album` (`id`), references `album` (`id`)
+    FOREIGN KEY (`album_id`) REFERENCES `album` (`id`)
 );
 
 CREATE TABLE `playlist_songs` (
@@ -118,14 +118,16 @@ CREATE TABLE `playlist_songs` (
     `song_id` varchar(128) NOT NULL,
     `order` int NOT NULL DEFAULT 0,
     CONSTRAINT `playlist_songs_playlist_id_song_id_pk` PRIMARY KEY(`playlist_id`, `song_id`),
-    KEY `playlist_songs_idx` (`playlist_id`, `song_id`) -- references `playlist` (`id`), references `playlist` (`id`)
+    FOREIGN KEY (`playlist_id`) REFERENCES `playlist` (`id`),
+    FOREIGN KEY (`song_id`) REFERENCES `song` (`id`)
 );
 
 CREATE TABLE `user_likes` (
     `user_id` varchar(15) NOT NULL,
     `song_id` varchar(128) NOT NULL,
     CONSTRAINT `user_likes_user_id_song_id_pk` PRIMARY KEY(`user_id`, `song_id`),
-    KEY `user_likes_idx` (`user_id`, `song_id`) -- references `auth_user` (`id`), references `songs` (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+    FOREIGN KEY (`song_id`) REFERENCES `song` (`id`)
 );
 
 CREATE TABLE `user_song_recommendations` (
@@ -134,5 +136,6 @@ CREATE TABLE `user_song_recommendations` (
     `song_id` varchar(128) NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `user_song_recommendations_id_user_id_song_id_pk` PRIMARY KEY(`id`, `user_id`, `song_id`),
-    KEY `user_song_recommendations_idx` (`id`, `user_id`, `song_id`) -- references `auth_user` (`id`), references `songs` (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+    FOREIGN KEY (`song_id`) REFERENCES `song` (`id`)
 );
