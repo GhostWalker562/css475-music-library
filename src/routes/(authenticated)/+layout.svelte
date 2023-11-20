@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Menu from '$lib/components/Menu.svelte';
+	import Sidebar from '$lib/components/Sidebar.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
-	import type { PageData } from './$types';
+	import type { LayoutData } from './$types';
 
-	export let data: PageData;
+	export let data: LayoutData;
 </script>
 
 <ViewTransition />
@@ -11,4 +12,7 @@
 <!-- Navigation Bar -->
 <Menu user={data.user} />
 
-<h1 class="my-4 font-semibold">Logged in!</h1>
+<div class="grid lg:grid-cols-5">
+	<Sidebar class="hidden lg:block" />
+	<slot />
+</div>

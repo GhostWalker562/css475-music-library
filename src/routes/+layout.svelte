@@ -1,5 +1,4 @@
 <script>
-	import ViewTransition from '$lib/components/ViewTransition.svelte';
 	import '../app.postcss';
 	import { ModeWatcher } from 'mode-watcher';
 </script>
