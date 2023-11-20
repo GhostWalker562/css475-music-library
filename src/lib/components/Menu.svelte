@@ -18,11 +18,13 @@
 			<Menubar.Trigger class="cursor-pointer flex gap-2">
 				{user.username}
 				<Avatar.Root class="w-6 h-6 border ">
-					<Avatar.Image
-						src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.username}`}
-						alt={user.username}
-					/>
-					<!-- <Avatar.Fallback>{user.username.substring(0, 2)}</Avatar.Fallback> -->
+					<Avatar.Image src={user.profileImageUrl} alt={user.username} />
+					<Avatar.Fallback>
+						<img
+							src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.username}`}
+							alt={user.username}
+						/>
+					</Avatar.Fallback>
 				</Avatar.Root>
 			</Menubar.Trigger>
 
