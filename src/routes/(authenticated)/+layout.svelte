@@ -14,5 +14,7 @@
 
 <div class="grid lg:grid-cols-5">
 	<Sidebar class="hidden lg:block" />
-	<slot />
+	<div class="col-span-4">
+		<slot />
+	</div>
 </div>

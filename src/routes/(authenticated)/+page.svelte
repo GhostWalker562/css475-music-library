@@ -4,4 +4,4 @@
 	export let data: PageData;
 </script>
 
-Discover
+<div class="w-full pr-8 pl-4 py-8">Discover</div>

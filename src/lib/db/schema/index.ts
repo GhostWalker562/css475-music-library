@@ -141,6 +141,10 @@ export const userLikes = mysqlTable(
 
 export const selectUserSchema = createSelectSchema(user);
 
+export const selectSongSchema = createSelectSchema(song);
+
+export const selectArtistSchema = createSelectSchema(artist);
+
 // misc
 
 export type UserSchema = z.infer<typeof selectUserSchema>;
