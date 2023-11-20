@@ -16,6 +16,7 @@
 		"db:seed": "bun run ./scripts/setup_db.ts; bun run ./scripts/seed_db.ts;",
 		"db:relationships": "bun run ./scripts/create_relationship_inserts.ts ",
 		"db:songs": "bun run ./scripts/create_kaggle_inserts.ts",
+		"db:join-spotify": "bun run ./scripts/join_spotify_dataset.ts",
 		"docker:up": "docker-compose up -d",
 		"docker:down": "docker-compose down",
 		"docker:restart": "bun run docker:down && bun run docker:up"
@@ -49,8 +50,10 @@
 		"@lucia-auth/oauth": "^3.5.0",
 		"@planetscale/database": "^1.11.0",
 		"@sendgrid/mail": "^7.7.0",
+		"axios": "^1.6.2",
 		"bits-ui": "^0.9.8",
 		"clsx": "^2.0.0",
+		"csv-stringify": "^6.4.4",
 		"drizzle-orm": "^0.29.0",
 		"drizzle-zod": "^0.5.1",
 		"lucia": "^2.7.4",

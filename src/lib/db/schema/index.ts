@@ -76,6 +76,8 @@ export const song = mysqlTable('song', {
 	// .references(() => artist.id),
 	duration: int('duration').notNull(),
 	genre: mysqlEnum('genre', ['COUNTRY', 'POP', 'RAP', 'ROCK', 'CLASSICAL', 'JAZZ']).notNull(),
+	spotifyId: varchar('spotify_id', { length: 128 }),
+	previewUrl: varchar('preview_url', { length: 255 }),
 	createdAt
 });
 
@@ -144,6 +146,8 @@ export const selectUserSchema = createSelectSchema(user);
 export const selectSongSchema = createSelectSchema(song);
 
 export const selectArtistSchema = createSelectSchema(artist);
+
+export const selectAlbumSchema = createSelectSchema(album);
 
 // misc
 

@@ -90,6 +90,8 @@ CREATE TABLE `song` (
         'CLASSICAL',
         'JAZZ'
     ) NOT NULL,
+    `spotify_id` varchar(128),
+    `preview_url` varchar(255),
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `songs_id_pk` PRIMARY KEY (`id`),
     FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)

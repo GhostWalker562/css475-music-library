@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SongItem from '$lib/components/SongItem.svelte';
+	import TrackItem from '$lib/components/TrackItem.svelte';
 	import { Separator } from '$lib/components/ui/separator';
 	import type { PageData } from './$types';
 
@@ -15,8 +15,8 @@
 	</div>
 	<Separator class="my-4" />
 	<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
-		{#each data.songsWithArtist as item}
-			<SongItem {item} />
+		{#each data.tracks as track}
+			<TrackItem {track} />
 		{/each}
 	</div>
 </div>

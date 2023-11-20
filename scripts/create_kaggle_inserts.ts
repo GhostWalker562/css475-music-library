@@ -11,9 +11,14 @@ interface Song {
 	released_year: number;
 	released_month: number;
 	released_day: number;
+	spotify_track_id: string;
+	spotify_preview_url: string;
+	spotify_album_cover_url: string;
 }
 
-const fileContent = await fs.readFile(`${__dirname}/seed/spotify-2023.csv`, { encoding: 'utf-8' });
+const fileContent = await fs.readFile(`${__dirname}/seed/updated-dataset.csv`, {
+	encoding: 'utf-8'
+});
 
 const headers = [
 	'track_name',
@@ -39,7 +44,10 @@ const headers = [
 	'acousticness_%',
 	'instrumentalness_%',
 	'liveness_%',
-	'speechiness_%'
+	'speechiness_%',
+	'spotify_track_id',
+	'spotify_preview_url',
+	'spotify_album_cover_url'
 ];
 
 parse(
@@ -61,7 +69,7 @@ const sanitizeSongName = (songName: string) => songName.replaceAll("'", '');
 async function main(songs: Song[]) {
 	const artists: { [name: string]: Song[] } = {};
 
-	for (let i = 1; i <= 50; i++) {
+	for (let i = 1; i <= 75; i++) {
 		const song = songs[i];
 
 		// If artists[song.artists_name] exists, push song to it
@@ -98,16 +106,24 @@ async function main(songs: Song[]) {
 		// Generate insert statements for artist album
 		const albumId = generateRandomString(50);
 		const albumName = `${artist} Album`;
-		const insertAlbumQuery = `INSERT INTO \`album\` (\`id\`, \`artist_id\`, \`cover_image_url\`, \`name\`, \`created_at\`) VALUES ('${albumId}','${artistId}',NULL, '${albumName}','2023-11-17 17:00:08.000');\n`;
+		const insertAlbumQuery = `INSERT INTO \`album\` (\`id\`, \`artist_id\`, \`cover_image_url\`, \`name\`, \`created_at\`) VALUES ('${albumId}','${artistId}', ${
+			artistSongs[0].spotify_album_cover_url
+				? `'${artistSongs[0].spotify_album_cover_url}'`
+				: 'NULL'
+		}, '${albumName}','2023-11-17 17:00:08.000');\n`;
 		await fs.appendFile(insertSongsPath, insertAlbumQuery, {});
 
 		// Generate insert statements for artist songs for album
 		for (let j = 0; j < artistSongs.length; j++) {
 			const songId = generateRandomString(50);
 			const song = artistSongs[j];
-			const insertSongQuery = `INSERT INTO \`song\` (\`id\`, \`name\`, \`artist_id\`,\`duration\`, \`genre\`, \`created_at\`) VALUES ('${songId}','${sanitizeSongName(
+			const insertSongQuery = `INSERT INTO \`song\` (\`id\`, \`name\`, \`artist_id\`,\`duration\`, \`genre\`, \`spotify_id\`, \`preview_url\`, \`created_at\`) VALUES ('${songId}','${sanitizeSongName(
 				song.track_name
-			)}','${artistId}',100,'POP','2023-11-17 17:00:08.000');\n`;
+			)}','${artistId}',100,'POP',${
+				song.spotify_track_id ? `'${song.spotify_track_id}'` : 'NULL'
+			},${
+				song.spotify_preview_url ? `'${song.spotify_preview_url}'` : 'NULL'
+			},'2023-11-17 17:00:08.000');\n`;
 			const inserAlbumSongQuery = `INSERT INTO \`album_songs\`(\`album_id\`, \`song_id\`, \`order\`) VALUES ('${albumId}', '${songId}', '${j}');\n`;
 			await fs.appendFile(insertSongsPath, insertSongQuery, {});
 			await fs.appendFile(insertSongsPath, inserAlbumSongQuery, {});
