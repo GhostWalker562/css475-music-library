@@ -36,6 +36,7 @@ export const actions = {
 					username: form.data.username,
 					email: form.data.email.toLowerCase(),
 					created_at: new Date(),
+					github_username: null,
 					profile_image_url: null
 				}
 			});

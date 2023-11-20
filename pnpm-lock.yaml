@@ -8,6 +8,9 @@ dependencies:
   '@lucia-auth/adapter-mysql':
     specifier: ^2.1.0
     version: 2.1.0(@planetscale/database@1.11.0)(lucia@2.7.4)(mysql2@3.6.3)
+  '@lucia-auth/oauth':
+    specifier: ^3.5.0
+    version: 3.5.0(lucia@2.7.4)
   '@planetscale/database':
     specifier: ^1.11.0
     version: 1.11.0
@@ -726,6 +729,14 @@ packages:
       '@planetscale/database': 1.11.0
       lucia: 2.7.4
       mysql2: 3.6.3
+    dev: false
+
+  /@lucia-auth/oauth@3.5.0(lucia@2.7.4):
+    resolution: {integrity: sha512-JSwAMVwlDJtbvfcJV1nbkv41OD830pgICrx8zFT71SYd5I1MnEQ+GqMTXBGRyxzc5XlLatT8ZS1Jt0k81487xg==}
+    peerDependencies:
+      lucia: ^2.0.0
+    dependencies:
+      lucia: 2.7.4
     dev: false
 
   /@melt-ui/svelte@0.61.2(svelte@4.2.3):

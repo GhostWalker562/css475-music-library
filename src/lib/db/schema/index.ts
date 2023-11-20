@@ -6,7 +6,6 @@ import {
 	mysqlTable,
 	primaryKey,
 	timestamp,
-	unique,
 	varchar
 } from 'drizzle-orm/mysql-core';
 import { createSelectSchema } from 'drizzle-zod';
@@ -24,7 +23,8 @@ export const user = mysqlTable('auth_user', {
 	id: varchar('id', { length: 15 }).primaryKey(),
 	// other user attributes
 	username: varchar('username', { length: 55 }).notNull(),
-	email: varchar('email', { length: 255 }).unique().notNull(),
+	githubUsername: varchar('github_username', { length: 255 }).unique(),
+	email: varchar('email', { length: 255 }).unique(),
 	profileImageUrl: varchar('profile_image_url', { length: 255 }),
 	createdAt
 });
@@ -119,11 +119,11 @@ export const albumSongs = mysqlTable(
 	{
 		albumId: varchar('album_id', { length: 128 }).notNull(),
 		// .references(() => album.id),
-		songId: varchar('song_id', { length: 128 }).notNull(),
+		songId: varchar('song_id', { length: 128 }).unique().notNull(),
 		// .references(() => song.id),
 		order: int('order').notNull().default(0)
 	},
-	(t) => ({ pk: primaryKey({ columns: [t.albumId, t.songId] }), unq: unique().on(t.songId) })
+	(t) => ({ pk: primaryKey({ columns: [t.albumId, t.songId] }) })
 );
 
 export const userLikes = mysqlTable(
@@ -147,6 +147,7 @@ export type UserSchema = z.infer<typeof selectUserSchema>;
 
 export type UserAttributes = {
 	username: UserSchema['username'];
+	github_username: UserSchema['githubUsername'];
 	email: UserSchema['email'];
 	created_at: UserSchema['createdAt'];
 	profile_image_url: UserSchema['profileImageUrl'];

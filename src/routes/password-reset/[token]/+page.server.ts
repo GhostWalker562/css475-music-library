@@ -27,6 +27,8 @@ export const actions = {
 			const userId = await validatePasswordResetToken(token);
 			const user = await auth.getUser(userId);
 
+			if (!user.email) return fail(400, { error: 'User does not have an email address' });
+
 			await auth.invalidateAllUserSessions(user.userId);
 			await auth.updateKeyPassword('email', user.email, form.data.password);
 

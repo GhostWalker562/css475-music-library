@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
+	import GithubIcon from '$lib/components/icons/GithubIcon.svelte';
+
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
@@ -75,12 +78,17 @@
 			</div>
 
 			<div class="auth-footer">
-				<Card.Footer class="flex-col ">
+				<Card.Footer class="flex-col gap-4">
 					<Button type="submit" class="w-full" isLoading={isFormSubmitting}>Login</Button>
 					{#if form?.error}
-						<p class="pt-4 text-xs text-red-600">{form.error}</p>
+						<p class="text-xs text-red-600">{form.error}</p>
 					{/if}
-					<a class="pt-4 text-xs" href="/signup">
+					<Separator />
+					<Button href="/login/github" variant="outline" class=" w-full">
+						<GithubIcon class="mr-2 h-4 w-4" />
+						Github
+					</Button>
+					<a class="text-xs" href="/signup">
 						Don't have an account? <span class=" text-blue-600">Sign Up</span>
 					</a>
 				</Card.Footer>

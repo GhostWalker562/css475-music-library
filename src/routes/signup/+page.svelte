@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
+	import GithubIcon from '$lib/components/icons/GithubIcon.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { Label } from '$lib/components/ui/label';
+	import { Separator } from '$lib/components/ui/separator';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
@@ -14,7 +17,9 @@
 
 <ViewTransition />
 
-<div class="w-full h-screen center">
+<div class="w-full h-screen relative center">
+	<ShapeBackground />
+
 	<form
 		use:enhance={() => {
 			isFormSubmitting = true;
@@ -26,7 +31,7 @@
 		action="?/register"
 		method="post"
 	>
-		<Card.Root class="max-w-xs">
+		<Card.Root class="max-w-xs bg-card">
 			<div class="auth-header">
 				<Card.Header class="space-y-1">
 					<Card.Title class="text-2xl">Create an account</Card.Title>
@@ -86,12 +91,17 @@
 			</div>
 
 			<div class="auth-footer">
-				<Card.Footer class="flex-col">
+				<Card.Footer class="flex-col gap-4">
 					<Button type="submit" class="w-full" isLoading={isFormSubmitting}>Create Account</Button>
 					{#if form?.error}
-						<p class="pt-4 text-xs text-red-600">{form.error}</p>
+						<p class="text-xs text-red-600">{form.error}</p>
 					{/if}
-					<a href="/login" class="pt-4 text-xs">
+					<Separator />
+					<Button href="/login/github" variant="outline" class=" w-full">
+						<GithubIcon class="mr-2 h-4 w-4" />
+						Github
+					</Button>
+					<a href="/login" class="text-xs">
 						Already have an account? <span class=" text-blue-600">Login</span>
 					</a>
 				</Card.Footer>
