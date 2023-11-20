@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
@@ -14,7 +15,9 @@
 
 <ViewTransition />
 
-<div class="w-full h-screen center">
+<div class="w-full h-screen relative center">
+	<ShapeBackground />
+
 	<form
 		use:enhance={() => {
 			isFormSubmitting = true;
@@ -26,7 +29,7 @@
 		action="?/sendReset"
 		method="post"
 	>
-		<Card.Root class="max-w-xs">
+		<Card.Root class="max-w-xs bg-card">
 			<div class="auth-header">
 				<Card.Header class="space-y-1">
 					<Card.Title class="text-2xl">Reset Password</Card.Title>

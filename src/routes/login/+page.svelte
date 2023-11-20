@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
 	import GithubIcon from '$lib/components/icons/GithubIcon.svelte';
-
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
@@ -17,7 +17,9 @@
 
 <ViewTransition />
 
-<div class="w-full h-screen center">
+<div class="w-full h-screen relative center">
+	<ShapeBackground />
+
 	<form
 		use:enhance={() => {
 			isFormSubmitting = true;
@@ -29,7 +31,7 @@
 		action="?/login"
 		method="post"
 	>
-		<Card.Root class="max-w-xs">
+		<Card.Root class="max-w-xs bg-card">
 			<div class="auth-header">
 				<Card.Header class="space-y-1">
 					<Card.Title class="text-2xl">Login</Card.Title>
