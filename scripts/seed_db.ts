@@ -7,9 +7,6 @@ dotenv.config();
 const tableQuery = await fs.readFile(`${__dirname}/seed/insert_table_data.sql`, {
 	encoding: 'utf-8'
 });
-const songsQuery = await fs.readFile(`${__dirname}/seed/insert_songs.sql`, {
-	encoding: 'utf-8'
-});
 
 const connection = connect({ url: process.env.DATABASE_URL });
 
@@ -17,8 +14,3 @@ console.log('Seeding DB...');
 
 await executeQuery(tableQuery, connection, false);
 console.log('Inserted table data!');
-
-await executeQuery(songsQuery, connection, false);
-console.log('Inserted songs data!');
-
-console.log('Seeded database!');

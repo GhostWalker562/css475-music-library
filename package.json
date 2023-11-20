@@ -12,8 +12,10 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"db:generate": "drizzle-kit generate:mysql",
 		"db:introspect": "drizzle-kit introspect:mysql",
-		"db:seed": "bun run ./scripts/setup_db.ts; bun run ./scripts/seed_db.ts",
-		"db:songs": "bun run ./scripts/create_kaggle_inserts.ts ",
+		"db:build": "bun db:seed; bun db:songs; bun db:relationships",
+		"db:seed": "bun run ./scripts/setup_db.ts; bun run ./scripts/seed_db.ts;",
+		"db:relationships": "bun run ./scripts/create_relationship_inserts.ts ",
+		"db:songs": "bun run ./scripts/create_kaggle_inserts.ts",
 		"docker:up": "docker-compose up -d",
 		"docker:down": "docker-compose down",
 		"docker:restart": "bun run docker:down && bun run docker:up"

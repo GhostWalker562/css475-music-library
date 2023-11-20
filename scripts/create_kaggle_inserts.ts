@@ -1,6 +1,8 @@
 import { promises as fs } from 'fs';
 import { parse } from 'csv-parse';
-import { generateRandomString } from './utils/generateRandomString';
+import { generateRandomString } from 'lucia/utils';
+import { connect } from '@planetscale/database';
+import { executeQuery } from './utils/executeQuery';
 
 interface Song {
 	track_name: string;
@@ -40,8 +42,6 @@ const headers = [
 	'speechiness_%'
 ];
 
-const artists: { [name: string]: Song[] } = {};
-
 parse(
 	fileContent,
 	{
@@ -52,16 +52,15 @@ parse(
 		if (error) {
 			console.error(error);
 		}
-		console.log(result);
 		await main(result);
 	}
 );
 
-const sanitizeSongName = (songName: string) => {
-	return songName.replaceAll("'", '');
-};
+const sanitizeSongName = (songName: string) => songName.replaceAll("'", '');
 
 async function main(songs: Song[]) {
+	const artists: { [name: string]: Song[] } = {};
+
 	for (let i = 1; i <= 50; i++) {
 		const song = songs[i];
 
@@ -85,6 +84,9 @@ async function main(songs: Song[]) {
 		const email = `${i}@artist.com`;
 		const artistId = generateRandomString(15);
 
+		await fs.appendFile(insertSongsPath, `-- ${artist}\n`, {});
+
+		// Generate insert statements for artist user
 		const insertArtistUserQuery = `INSERT INTO \`auth_user\` (\`id\`, \`username\`, \`email\`, \`created_at\`) VALUES ('${artistId}', '${artist}', '${email}', '2023-11-17 17:00:08.000');\n`;
 		const insertArtistKeyQuery = `INSERT INTO \`user_key\` (\`id\`, \`user_id\`, \`hashed_password\`) VALUES ('email:${email}', '${artistId}', 's2:ypixvsa9kdptdm5e:9772b9b97a807a7f47ec6097088d2a4024dba58149f0ca73e063e373505e7d6d73558d9111681e34fee10c4b14d8ee4af03030521f41d555cc1fef79872ce189');\n`;
 		const insertArtistQuery = `INSERT INTO \`artist\` (\`id\`, \`bio\`, \`name\`) VALUES ('${artistId}', 'My name is ${artist}', '${artist}');\n`;
@@ -93,22 +95,32 @@ async function main(songs: Song[]) {
 		await fs.appendFile(insertSongsPath, insertArtistKeyQuery, {});
 		await fs.appendFile(insertSongsPath, insertArtistQuery, {});
 
+		// Generate insert statements for artist album
 		const albumId = generateRandomString(50);
 		const albumName = `${artist} Album`;
 		const insertAlbumQuery = `INSERT INTO \`album\` (\`id\`, \`artist_id\`, \`cover_image_url\`, \`name\`, \`created_at\`) VALUES ('${albumId}','${artistId}',NULL, '${albumName}','2023-11-17 17:00:08.000');\n`;
 		await fs.appendFile(insertSongsPath, insertAlbumQuery, {});
 
+		// Generate insert statements for artist songs for album
 		for (let j = 0; j < artistSongs.length; j++) {
 			const songId = generateRandomString(50);
 			const song = artistSongs[j];
 			const insertSongQuery = `INSERT INTO \`song\` (\`id\`, \`name\`, \`artist_id\`,\`duration\`, \`genre\`, \`created_at\`) VALUES ('${songId}','${sanitizeSongName(
 				song.track_name
 			)}','${artistId}',100,'POP','2023-11-17 17:00:08.000');\n`;
-			const inserAlbumSongQuery = `INSERT INTO \`album_songs\`(\`album_id\`, \`song_id\`) VALUES ('${albumId}', '${songId}');\n`;
+			const inserAlbumSongQuery = `INSERT INTO \`album_songs\`(\`album_id\`, \`song_id\`, \`order\`) VALUES ('${albumId}', '${songId}', '${j}');\n`;
 			await fs.appendFile(insertSongsPath, insertSongQuery, {});
 			await fs.appendFile(insertSongsPath, inserAlbumSongQuery, {});
 		}
 	}
 
 	console.log('Generated insert statements for songs!');
+
+	console.log('Inserting songs data...');
+	const songsQuery = await fs.readFile(`${__dirname}/seed/insert_songs.sql`, {
+		encoding: 'utf-8'
+	});
+	const connection = connect({ url: process.env.DATABASE_URL });
+	await executeQuery(songsQuery, connection, false);
+	console.log('Inserted songs data!');
 }
