@@ -9,6 +9,7 @@
 	import { categories } from '$lib/constants/paths';
 	import { page } from '$app/stores';
 	import ThemeSwitch from './ThemeSwitch.svelte';
+	import Logo from './Logo.svelte';
 
 	export let user: User;
 
@@ -22,7 +23,12 @@
 	<Menubar.Root class="rounded-none border-none border-b px-2 lg:px-4 justify-between">
 		<!-- Logo -->
 		<Menubar.Menu>
-			<a href="/"><Menubar.Item class="font-bold">Music Library</Menubar.Item></a>
+			<a href="/">
+				<Menubar.Item class="text-lg cursor-pointer">
+					<Logo class="w-4 h-4 mr-2" />
+					Skypix
+				</Menubar.Item>
+			</a>
 		</Menubar.Menu>
 		<!-- Account -->
 		<Menubar.Menu>

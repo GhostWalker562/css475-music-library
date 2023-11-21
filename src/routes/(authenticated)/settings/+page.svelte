@@ -19,7 +19,7 @@
 </script>
 
 <div class="w-full pr-8 pl-4 py-8">
-	<SectionHeader title="Apperance" subtitle="Choose a theme for your Music Library" />
+	<SectionHeader title="Apperance" subtitle="Choose a theme for your music library" />
 
 	<div class="flex flex-col gap-2">
 		<Label for="theme">Theme</Label>

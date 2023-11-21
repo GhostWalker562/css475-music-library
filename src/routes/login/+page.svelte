@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import Logo from '$lib/components/Logo.svelte';
 	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
 	import GithubIcon from '$lib/components/icons/GithubIcon.svelte';
@@ -33,7 +34,8 @@
 	>
 		<Card.Root class="max-w-xs bg-card">
 			<div class="auth-header">
-				<Card.Header class="space-y-1">
+				<Card.Header class="flex flex-col gap-1">
+					<div class="flex center mb-2 text-lg"><Logo class="w-4 h-4 mr-1" /> Skypix</div>
 					<Card.Title class="text-2xl">Login</Card.Title>
 					<Card.Description
 						>Enter your email and password to login to your account

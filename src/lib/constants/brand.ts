@@ -1,1 +1,1 @@
-export const PRODUCT_NAME = 'Music Library';
+export const PRODUCT_NAME = 'Skypix';

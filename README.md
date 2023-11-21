@@ -43,4 +43,4 @@ You can preview the production build with `npm run preview`.
 
 ## Deployment
 
-Live deployment: https://css475-music-library.vercel.app
+Live deployment: https://skypix.vercel.app

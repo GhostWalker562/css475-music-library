@@ -6,7 +6,7 @@
 
 	export let src: string | null | undefined;
 	export let fallbackSeed: string = 'city,night';
-	export let className: string | undefined | null;
+	export let className: string | undefined | null = undefined;
 	export { className as class };
 
 	const fallback = `https://source.unsplash.com/random/?${fallbackSeed}`;
