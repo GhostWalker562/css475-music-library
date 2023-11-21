@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `auth_user`;
 -- Auth Tables
 CREATE TABLE `auth_user` (
     `id` varchar(15) NOT NULL,
-    `username` varchar(55) NOT NULL,
+    `username` varchar(128) NOT NULL,
     `github_username` varchar(255) UNIQUE,
     `email` varchar(255) UNIQUE,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -62,7 +62,7 @@ CREATE TABLE `password_reset` (
 CREATE TABLE `artist`(
     `id` varchar(15) NOT NULL,
     `bio` varchar(400) NOT NULL,
-    `name` varchar(100) NOT NULL,
+    `name` varchar(128) NOT NULL,
     CONSTRAINT `artist_id_pk` PRIMARY KEY (`id`),
     KEY `artist_idx` (`id`) -- references `auth_user` (`id`)
 );
@@ -71,7 +71,7 @@ CREATE TABLE `album`(
     `id` varchar(128) NOT NULL,
     `artist_id` varchar(15) NOT NULL,
     `cover_image_url` varchar(255),
-    `name` varchar(200) NOT NULL,
+    `name` varchar(128) NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `albums_id_pk` PRIMARY KEY (`id`),
     KEY `album_idx` (`artist_id`) -- references `artist` (`id`)
@@ -79,7 +79,7 @@ CREATE TABLE `album`(
 
 CREATE TABLE `song` (
     `id` varchar(128) NOT NULL,
-    `name` varchar (150) NOT NULL,
+    `name` varchar (128) NOT NULL,
     `artist_id` varchar(15) NOT NULL,
     `duration` int NOT NULL,
     `genre` ENUM (
@@ -99,7 +99,7 @@ CREATE TABLE `song` (
 
 CREATE TABLE `playlist` (
     `id` varchar(128) NOT NULL,
-    `name` varchar (150) NOT NULL,
+    `name` varchar (128) NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `creator_id` varchar(128) NOT NULL,
     CONSTRAINT `playlists_id_pk` PRIMARY KEY (`id`),

@@ -22,7 +22,7 @@ const createdAt = timestamp('created_at')
 export const user = mysqlTable('auth_user', {
 	id: varchar('id', { length: 15 }).primaryKey(),
 	// other user attributes
-	username: varchar('username', { length: 55 }).notNull(),
+	username: varchar('username', { length: 128 }).notNull(),
 	githubUsername: varchar('github_username', { length: 255 }).unique(),
 	email: varchar('email', { length: 255 }).unique(),
 	profileImageUrl: varchar('profile_image_url', { length: 255 }),
@@ -57,21 +57,21 @@ export const artist = mysqlTable('artist', {
 	id: varchar('id', { length: 15 }).primaryKey(),
 	// .references(() => user.id),
 	bio: varchar('bio', { length: 400 }),
-	name: varchar('name', { length: 100 }).notNull()
+	name: varchar('name', { length: 128 }).notNull()
 });
 
 export const album = mysqlTable('album', {
 	id: varchar('id', { length: 128 }).primaryKey(),
 	artistId: varchar('artist_id', { length: 15 }).notNull(),
 	// .references(() => artist.id),
-	name: varchar('name', { length: 200 }).notNull(),
+	name: varchar('name', { length: 128 }).notNull(),
 	coverImageUrl: varchar('cover_image_url', { length: 255 }),
 	createdAt
 });
 
 export const song = mysqlTable('song', {
 	id: varchar('id', { length: 128 }).primaryKey(),
-	name: varchar('name', { length: 150 }).notNull(),
+	name: varchar('name', { length: 128 }).notNull(),
 	artistId: varchar('artist_id', { length: 15 }).notNull(),
 	// .references(() => artist.id),
 	duration: int('duration').notNull(),
@@ -83,7 +83,7 @@ export const song = mysqlTable('song', {
 
 export const playlist = mysqlTable('playlist', {
 	id: varchar('id', { length: 128 }).primaryKey(),
-	name: varchar('name', { length: 150 }).notNull(),
+	name: varchar('name', { length: 128 }).notNull(),
 	creatorId: varchar('creator_id', { length: 15 }).notNull(),
 	// .references(() => user.id),
 	createdAt
