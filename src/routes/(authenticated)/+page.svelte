@@ -2,7 +2,7 @@
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
 	import TrackItem from '$lib/components/TrackItem.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { ListMusic, MoveRight } from 'lucide-svelte';
+	import { ListMusic } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
 	import Logo from '$lib/components/Logo.svelte';
@@ -27,7 +27,7 @@
 	<!-- Discover -->
 	<div class="px-2">
 		<SectionHeader title="Discover" subtitle="Find trending music this year">
-			<Button href="/browse" variant="outline" size="lg" class="ml-2">
+			<Button href="/browse" variant="outline" size="lg">
 				<ListMusic class="w-4 h-4 mr-2" />
 				Browse All
 			</Button>
