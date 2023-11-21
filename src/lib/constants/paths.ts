@@ -1,4 +1,4 @@
-import { Disc3, Heart, Home, Library, Search } from 'lucide-svelte';
+import { Disc3, Heart, Home, Library, Search, Settings } from 'lucide-svelte';
 
 export const categories = [
 	{
@@ -33,6 +33,11 @@ export const categories = [
 				title: 'Likes',
 				icon: Heart,
 				href: '/likes'
+			},
+			{
+				title: 'Settings',
+				icon: Settings,
+				href: '/settings'
 			}
 		]
 	}

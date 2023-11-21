@@ -8,6 +8,7 @@
 	import { Menu } from 'lucide-svelte';
 	import { categories } from '$lib/constants/paths';
 	import { page } from '$app/stores';
+	import ThemeSwitch from './ThemeSwitch.svelte';
 
 	export let user: User;
 
@@ -26,6 +27,11 @@
 		<!-- Account -->
 		<Menubar.Menu>
 			<div class="flex gap-0 md:gap-2">
+				<!-- Theme -->
+				<div class="hidden md:flex">
+					<ThemeSwitch />
+				</div>
+				<!-- User -->
 				<Menubar.Trigger class="cursor-pointer flex gap-2">
 					{user.username}
 					<Avatar.Root class="w-6 h-6 border ">
@@ -38,6 +44,7 @@
 						</Avatar.Fallback>
 					</Avatar.Root>
 				</Menubar.Trigger>
+				<!-- Collapsible -->
 				<Sheet.Root>
 					<Sheet.Trigger class="block lg:hidden">
 						<Button variant="ghost" size="icon">
@@ -73,7 +80,7 @@
 				</Sheet.Root>
 			</div>
 			<Menubar.Content>
-				<Menubar.Item inset>Settings</Menubar.Item>
+				<a href="/settings"><Menubar.Item inset>Settings</Menubar.Item> </a>
 				<Menubar.Separator />
 				<form action="/?/logout" method="post" use:enhance>
 					<button type="submit" class="w-full">
