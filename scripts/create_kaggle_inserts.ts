@@ -69,7 +69,7 @@ const sanitizeSongName = (songName: string) => songName.replaceAll("'", '');
 async function main(songs: Song[]) {
 	const artists: { [name: string]: Song[] } = {};
 
-	for (let i = 1; i <= 75; i++) {
+	for (let i = 1; i <= 100; i++) {
 		const song = songs[i];
 
 		// If artists[song.artists_name] exists, push song to it
