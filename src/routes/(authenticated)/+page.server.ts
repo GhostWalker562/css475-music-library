@@ -1,13 +1,19 @@
 import { redirect, type Actions, fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { auth } from '$lib/server/lucia';
+import { selectAllUserRecommendedTracks } from '../../../scripts/queries/selectAllUserRecommendedTracks';
+import { selectAllTracksLimited } from '../../../scripts/queries/selectAllTracksLimited';
 
 export const load = (async ({ locals }) => {
 	const session = await locals.auth.validate();
 
 	if (!session) throw redirect(303, '/login');
 
-	return {};
+	const recommendations = await selectAllUserRecommendedTracks(session.user.userId);
+
+	const tracks = await selectAllTracksLimited(10);
+
+	return { tracks, recommendations };
 }) satisfies PageServerLoad;
 
 export const actions = {

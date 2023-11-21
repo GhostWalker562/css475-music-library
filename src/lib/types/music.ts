@@ -8,3 +8,5 @@ export type Song = z.infer<typeof selectSongSchema>;
 export type Album = z.infer<typeof selectAlbumSchema>;
 
 export type Track = { song: Song; artist: Artist; album: Album };
+
+export type Recommendation = { song: Song; artist: Artist; album: Album; };
