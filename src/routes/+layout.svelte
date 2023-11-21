@@ -11,7 +11,7 @@
 
 <svelte:head>
 	<!-- Primary Tags -->
-	<title>Skypix</title>
+	<title>Skypix - Music Library</title>
 	<meta name="title" content="Skypix - Music Library" />
 	<meta name="description" content="Listen, save, and share music!" />
 

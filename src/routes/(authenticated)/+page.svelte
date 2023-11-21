@@ -4,7 +4,9 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ListMusic } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
+	import Shape1 from '$lib/components/shapes/Shape1.svelte';
+	import Shape2 from '$lib/components/shapes/Shape2.svelte';
+	import Shape3 from '$lib/components/shapes/Shape3.svelte';
 	import Logo from '$lib/components/Logo.svelte';
 
 	export let data: PageData;
@@ -12,8 +14,14 @@
 
 <div class="w-full pr-8 pl-4 py-8">
 	<div class="mx-2 border rounded-md relative overflow-hidden -z-50">
-		<ShapeBackground />
-		<div class="p-8 bg-black/40 w-full h-full center flex-col">
+		<Shape1 class="absolute top-[10%] left-[10%] md:left-36 w-24 h-24 md:w-32 md:h-32 -z-20" />
+		<Shape2
+			class="absolute top-[85%] md:top-[60%] right-[35%] md:right-72  w-24 h-24 md:w-32 md:h-32 -z-20"
+		/>
+		<Shape3
+			class="absolute bottom-[7.5%] right-[12%] md:right-36 w-20 h-20 md:w-32 md:h-32 -z-20"
+		/>
+		<div class="p-8 bg-white/40 dark:bg-black/20 w-full h-full center flex-col">
 			<div class="flex center mb-2 text-3xl md:text-4xl md:font-light">
 				<Logo class="w-8 h-8 mr-4" /> Skypix
 			</div>
