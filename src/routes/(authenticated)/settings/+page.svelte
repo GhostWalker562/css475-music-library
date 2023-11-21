@@ -4,6 +4,7 @@
 	import type { PageData } from './$types';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import { setMode, mode, resetMode } from 'mode-watcher';
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
 
 	export let data: PageData;
 
@@ -18,11 +19,7 @@
 </script>
 
 <div class="w-full pr-8 pl-4 py-8">
-	<div class="space-y-0.5">
-		<h2 class="text-2xl font-bold tracking-tight">Apperance</h2>
-		<p class="text-muted-foreground">Customize the look of your Music Library</p>
-	</div>
-	<Separator class="my-6" />
+	<SectionHeader title="Apperance" subtitle="Choose a theme for your Music Library" />
 
 	<div class="flex flex-col gap-2">
 		<Label for="theme">Theme</Label>

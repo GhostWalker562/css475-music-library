@@ -22,7 +22,7 @@
 	<Menubar.Root class="rounded-none border-none border-b px-2 lg:px-4 justify-between">
 		<!-- Logo -->
 		<Menubar.Menu>
-			<Menubar.Item class="font-bold">Music Library</Menubar.Item>
+			<a href="/"><Menubar.Item class="font-bold">Music Library</Menubar.Item></a>
 		</Menubar.Menu>
 		<!-- Account -->
 		<Menubar.Menu>
