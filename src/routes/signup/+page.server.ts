@@ -4,6 +4,7 @@ import type { PageServerLoad } from './$types';
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
 import { LuciaError } from 'lucia';
+import { createRandomRecommendations } from '../../../scripts/queries/createRecommendations';
 
 const signupSchema = z.object({
 	username: z.string().min(3).max(20),
@@ -26,7 +27,7 @@ export const actions = {
 		if (!form.valid) return fail(400, { form });
 
 		try {
-			await auth.createUser({
+			const user = await auth.createUser({
 				key: {
 					providerId: 'email',
 					providerUserId: form.data.email.toLowerCase(),
@@ -40,6 +41,9 @@ export const actions = {
 					profile_image_url: null
 				}
 			});
+
+			// Create recommendations for the user
+			await createRandomRecommendations(user.userId, 5);
 		} catch (error) {
 			console.log(error);
 			if (error instanceof LuciaError) {

@@ -1,6 +1,7 @@
 import { auth, githubAuth } from '$lib/server/lucia.js';
 import { OAuthRequestError } from '@lucia-auth/oauth';
 import type { RequestHandler } from '@sveltejs/kit';
+import { createRandomRecommendations } from '../../../../../scripts/queries/createRecommendations';
 
 export const GET: RequestHandler = async ({ url, cookies, locals }) => {
 	const storedState = cookies.get('github_oauth_state');
@@ -37,6 +38,10 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
 					github_username: githubUser.login
 				}
 			});
+
+			// Create recommendations for the user
+			await createRandomRecommendations(user.userId, 5);
+
 			return user;
 		};
 
