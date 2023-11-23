@@ -26,6 +26,11 @@ declare global {
 	interface Document {
 		startViewTransition(updateCallback: () => Promise<void>): ViewTransition;
 	}
+
+	interface Window {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		cloudinary: any;
+	}
 }
 
 export {};
