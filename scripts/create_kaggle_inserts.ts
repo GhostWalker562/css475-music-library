@@ -3,6 +3,7 @@ import { parse } from 'csv-parse';
 import { generateRandomString } from 'lucia/utils';
 import { connect } from '@planetscale/database';
 import { executeQuery } from './utils/executeQuery';
+import { getPhrase } from './utils/getPhrase';
 
 interface Song {
 	track_name: string;
@@ -14,6 +15,7 @@ interface Song {
 	spotify_track_id: string;
 	spotify_preview_url: string;
 	spotify_album_cover_url: string;
+	spotify_artist_image_url: string;
 }
 
 const fileContent = await fs.readFile(`${__dirname}/seed/updated-dataset.csv`, {
@@ -47,7 +49,8 @@ const headers = [
 	'speechiness_%',
 	'spotify_track_id',
 	'spotify_preview_url',
-	'spotify_album_cover_url'
+	'spotify_album_cover_url',
+	'spotify_artist_image_url'
 ];
 
 parse(
@@ -95,9 +98,15 @@ async function main(songs: Song[]) {
 		await fs.appendFile(insertSongsPath, `-- ${artist}\n`, {});
 
 		// Generate insert statements for artist user
-		const insertArtistUserQuery = `INSERT INTO \`auth_user\` (\`id\`, \`username\`, \`email\`, \`created_at\`) VALUES ('${artistId}', '${artist}', '${email}', '2023-11-17 17:00:08.000');\n`;
+		const insertArtistUserQuery = `INSERT INTO \`auth_user\` (\`id\`, \`username\`, \`email\`, \`profile_image_url\`, \`created_at\`) VALUES ('${artistId}', '${artist}', '${email}', ${
+			artistSongs[0].spotify_artist_image_url
+				? `'${artistSongs[0].spotify_artist_image_url}'`
+				: 'NULL'
+		},'2023-11-17 17:00:08.000');\n`;
 		const insertArtistKeyQuery = `INSERT INTO \`user_key\` (\`id\`, \`user_id\`, \`hashed_password\`) VALUES ('email:${email}', '${artistId}', 's2:ypixvsa9kdptdm5e:9772b9b97a807a7f47ec6097088d2a4024dba58149f0ca73e063e373505e7d6d73558d9111681e34fee10c4b14d8ee4af03030521f41d555cc1fef79872ce189');\n`;
-		const insertArtistQuery = `INSERT INTO \`artist\` (\`id\`, \`bio\`, \`name\`) VALUES ('${artistId}', 'My name is ${artist}', '${artist}');\n`;
+		const insertArtistQuery = `INSERT INTO \`artist\` (\`id\`, \`bio\`, \`name\`) VALUES ('${artistId}', '${getPhrase(
+			artist
+		)}', '${artist}');\n`;
 
 		await fs.appendFile(insertSongsPath, insertArtistUserQuery, {});
 		await fs.appendFile(insertSongsPath, insertArtistKeyQuery, {});

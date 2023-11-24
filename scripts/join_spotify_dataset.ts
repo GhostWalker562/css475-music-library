@@ -27,6 +27,28 @@ async function getSpotifyToken(clientId: string, clientSecret: string): Promise<
 	return response.data.access_token;
 }
 
+const artistImageCache: Record<string, string> = {};
+async function getArtistImageURL(token: string, artistName: string) {
+	if (artistImageCache[artistName]) return artistImageCache[artistName];
+
+	const url = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+		artistName
+	)}&type=artist&limit=1`;
+	const headers = { Authorization: `Bearer ${token}` };
+
+	try {
+		const response = await axios.get(url, { headers });
+		const items = response.data.artists.items;
+		if (items.length > 0 && items[0].images.length > 0) {
+			artistImageCache[artistName] = items[0].images[0].url;
+			return items[0].images[0].url; // Return the URL of the first image
+		}
+	} catch (error) {
+		console.error('Error fetching artist image:', error);
+	}
+	return null;
+}
+
 async function searchTrack(token: string, trackName: string, artistName: string) {
 	const url = `https://api.spotify.com/v1/search?q=track:${encodeURIComponent(
 		trackName
@@ -62,6 +84,7 @@ async function updateDataset() {
 		row['spotify_track_id'] = trackId;
 		row['spotify_preview_url'] = previewUrl;
 		row['spotify_album_cover_url'] = albumCoverUrl;
+		row['spotify_artist_image_url'] = await getArtistImageURL(token, row['artist(s)_name']);
 	}
 
 	const updatedCsv = stringify(records, { header: true });
