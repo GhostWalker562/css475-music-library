@@ -2,7 +2,7 @@
 	import { Separator } from './ui/separator';
 
 	export let title: string;
-	export let subtitle: string | undefined = undefined;
+	export let subtitle: string | undefined | null = undefined;
 </script>
 
 <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 justify-between">
