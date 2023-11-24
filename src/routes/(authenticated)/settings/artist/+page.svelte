@@ -6,4 +6,4 @@
 	const user = data.user;
 </script>
 
-<SectionHeader title="Liked Songs" subtitle="View the songs you've liked" />
+<SectionHeader title="Artist Profile" />

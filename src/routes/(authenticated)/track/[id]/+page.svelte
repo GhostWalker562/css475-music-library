@@ -22,30 +22,28 @@
 	};
 </script>
 
-<div class="w-full pr-8 pl-4 py-8">
-	<Button
-		variant="link"
-		class="mb-4"
-		on:click={() => (history.length > 1 ? history.go(-1) : goto('/browse'))}
-	>
-		<MoveLeft class="w-4 h-4 mr-2" />
-		Browse
-	</Button>
+<Button
+	variant="link"
+	class="mb-4"
+	on:click={() => (history.length > 1 ? history.go(-1) : goto('/browse'))}
+>
+	<MoveLeft class="w-4 h-4 mr-2" />
+	Browse
+</Button>
 
-	<CoverImage
-		src={data.track.album.coverImageUrl}
-		fallbackSeed={data.track.song.name}
-		class="w-full h-72 rounded-lg border"
-	/>
+<CoverImage
+	src={data.track.album.coverImageUrl}
+	fallbackSeed={data.track.song.name}
+	class="w-full h-72 rounded-lg border"
+/>
 
-	<br />
+<br />
 
-	<SectionHeader title={data.track.song.name} subtitle={data.track.artist.name}>
-		<div class="flex justify-end flex-row-reverse sm:flex-row items-center mt-2 sm:mt-0 gap-4">
-			<form use:enhance={enhanceLikeForm} action="?/toggleLike" method="post">
-				<LikeButton type="submit" value={isLiked} />
-			</form>
-			<PreviewButton src={data.track.song.previewUrl} class={''} />
-		</div>
-	</SectionHeader>
-</div>
+<SectionHeader title={data.track.song.name} subtitle={data.track.artist.name}>
+	<div class="flex justify-end flex-row-reverse sm:flex-row items-center mt-2 sm:mt-0 gap-4">
+		<form use:enhance={enhanceLikeForm} action="?/toggleLike" method="post">
+			<LikeButton type="submit" value={isLiked} />
+		</form>
+		<PreviewButton src={data.track.song.previewUrl} class={''} />
+	</div>
+</SectionHeader>
