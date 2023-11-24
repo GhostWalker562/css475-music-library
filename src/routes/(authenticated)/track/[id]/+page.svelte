@@ -6,8 +6,20 @@
 	import type { PageData } from './$types';
 	import PreviewButton from '$lib/components/PreviewButton.svelte';
 	import { goto } from '$app/navigation';
+	import LikeButton from '$lib/components/LikeButton.svelte';
+	import { applyAction, enhance } from '$app/forms';
+	import type { ActionResult } from '@sveltejs/kit';
 
 	export let data: PageData;
+
+	let isLiked = data.isLiked;
+
+	const enhanceLikeForm = () => {
+		isLiked = !isLiked;
+		return async ({ result }: { result: ActionResult }) => {
+			await applyAction(result);
+		};
+	};
 </script>
 
 <div class="w-full pr-8 pl-4 py-8">
@@ -29,10 +41,11 @@
 	<br />
 
 	<SectionHeader title={data.track.song.name} subtitle={data.track.artist.name}>
-		<PreviewButton src={data.track.song.previewUrl} class={'hidden sm:flex'} />
+		<div class="flex justify-end flex-row-reverse sm:flex-row items-center mt-2 sm:mt-0 gap-4">
+			<form use:enhance={enhanceLikeForm} action="?/toggleLike" method="post">
+				<LikeButton type="submit" value={isLiked} />
+			</form>
+			<PreviewButton src={data.track.song.previewUrl} class={''} />
+		</div>
 	</SectionHeader>
-
-	<div class="flex items-center gap-4">
-		<PreviewButton src={data.track.song.previewUrl} class={'flex sm:hidden'} />
-	</div>
 </div>

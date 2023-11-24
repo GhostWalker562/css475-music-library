@@ -133,10 +133,10 @@ export const userLikes = mysqlTable(
 	{
 		userId: varchar('user_id', { length: 15 }).notNull(),
 		// .references(() => user.id),
-		albumId: varchar('song_id', { length: 128 }).notNull()
+		songId: varchar('song_id', { length: 128 }).notNull()
 		// .references(() => song.id),
 	},
-	(t) => ({ pk: primaryKey({ columns: [t.userId, t.albumId] }) })
+	(t) => ({ pk: primaryKey({ columns: [t.userId, t.songId] }) })
 );
 
 // zod schemas
