@@ -17,6 +17,8 @@ export const load = (async ({ locals, params }) => {
 
 	const track = (await selectTrack(params.id))[0];
 
+	if (!track) throw redirect(303, '/');
+
 	const isLiked = await selectIsTrackLiked(session.user.userId, params.id);
 
 	return { track, isLiked };
