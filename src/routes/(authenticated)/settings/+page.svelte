@@ -12,6 +12,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
+	import { transformCloudinaryURL } from '$lib/utils/transformCloudinaryUrl';
 
 	export let data: PageData;
 	const user = data.user;
@@ -31,7 +32,8 @@
 		setMode(mode.value as 'dark' | 'light' | 'system');
 	};
 
-	const handleOnUpload = (e: CustomEvent<UploadInfo>) => (profileImageUrl = e.detail.secure_url);
+	const handleOnUpload = (e: CustomEvent<UploadInfo>) =>
+		(profileImageUrl = transformCloudinaryURL(e.detail.secure_url));
 
 	// Effects
 
@@ -94,7 +96,6 @@
 			</p>
 		</div>
 	</div>
-
 	<Button type="submit" class="max-w-fit" size="lg" isLoading={isFormSubmitting}>
 		{recentlySubmitted ? 'Saved!' : 'Update Profile'}
 	</Button>

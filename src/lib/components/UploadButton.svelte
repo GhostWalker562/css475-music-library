@@ -17,7 +17,10 @@
 			widget = window.cloudinary.createUploadWidget(
 				{
 					cloudName: env.PUBLIC_CLOUDINARY_CLOUD_NAME,
-					uploadPreset: env.PUBLIC_CLOUDINARY_UPLOAD_PRESET
+					uploadPreset: env.PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+					resourceType: 'image',
+					clientAllowedFormats: ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'],
+					multiple: false
 				},
 				(error: any, result: any) => {
 					if (!error && result && result.event === 'success') {

@@ -26,7 +26,7 @@ export const actions = {
 
 		try {
 			const session = await locals.auth.validate();
-			1;
+
 			if (!session) throw redirect(303, '/login');
 
 			await auth.updateUserAttributes(session.user.userId, {
