@@ -41,7 +41,7 @@
 				<Menubar.Trigger class="cursor-pointer flex gap-2">
 					{user.username}
 					<Avatar.Root class="w-6 h-6 border ">
-						<Avatar.Image src={user.profileImageUrl} alt={user.username} />
+						<Avatar.Image src={user.profileImageUrl} alt={user.username} class='object-cover' />
 						<Avatar.Fallback>
 							<img
 								src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.username}`}

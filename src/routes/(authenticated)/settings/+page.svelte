@@ -65,7 +65,7 @@
 			<input type="hidden" bind:value={profileImageUrl} name="avatar" id="avatar" />
 			<UploadButton on:upload={handleOnUpload}>
 				<Avatar.Root class="w-36 h-36 border">
-					<Avatar.Image src={profileImageUrl} alt={user.username} />
+					<Avatar.Image src={profileImageUrl} alt={user.username} class="object-cover" />
 					<Avatar.Fallback>
 						<img
 							src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.username}`}
