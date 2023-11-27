@@ -1,13 +1,16 @@
-import { planetscale } from '@lucia-auth/adapter-mysql';
+import { planetscale, mysql2 } from '@lucia-auth/adapter-mysql';
 import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
 import { dev } from '$app/environment';
-import { connection } from '$lib/db';
+import { connection, localConnection } from '$lib/db';
 import { github } from '@lucia-auth/oauth/providers';
 import { env } from '$env/dynamic/private';
 
 export const auth = lucia({
-	adapter: planetscale(connection, { key: 'user_key', session: 'user_session', user: 'auth_user' }),
+	adapter:
+		env.NODE_ENV === 'local'
+			? mysql2(localConnection!, { key: 'user_key', session: 'user_session', user: 'auth_user' })
+			: planetscale(connection, { key: 'user_key', session: 'user_session', user: 'auth_user' }),
 	env: dev ? 'DEV' : 'PROD',
 	getUserAttributes: (userData) => ({
 		username: userData.username,

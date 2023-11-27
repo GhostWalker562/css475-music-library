@@ -1,8 +1,6 @@
 import { promises as fs } from 'fs';
 import { parse } from 'csv-parse';
 import { generateRandomString } from 'lucia/utils';
-import { connect } from '@planetscale/database';
-import { executeQuery } from './utils/executeQuery';
 import { getPhrase } from './utils/getPhrase';
 
 interface Song {
@@ -140,12 +138,4 @@ async function main(songs: Song[]) {
 	}
 
 	console.log('Generated insert statements for songs!');
-
-	console.log('Inserting songs data...');
-	const songsQuery = await fs.readFile(`${__dirname}/seed/insert_songs.sql`, {
-		encoding: 'utf-8'
-	});
-	const connection = connect({ url: process.env.DATABASE_URL });
-	await executeQuery(songsQuery, connection, false);
-	console.log('Inserted songs data!');
 }

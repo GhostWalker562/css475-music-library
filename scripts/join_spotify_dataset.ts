@@ -92,4 +92,4 @@ async function updateDataset() {
 	console.log('Dataset updated.');
 }
 
-updateDataset();
+await updateDataset();

@@ -1,17 +1,9 @@
-import { promises as fs } from 'fs';
-import { connect } from '@planetscale/database';
-import * as dotenv from 'dotenv';
-import * as schema from '../src/lib/db/schema';
-import { drizzle } from 'drizzle-orm/planetscale-serverless';
 import { eq } from 'drizzle-orm';
-import { getRandomElements } from './utils/getRandomElement';
+import { promises as fs } from 'fs';
 import { generateRandomString } from 'lucia/utils';
-import { executeQuery } from './utils/executeQuery';
-dotenv.config();
-
-export const connection = connect({ url: process.env.DATABASE_URL });
-
-export const db = drizzle(connection, { schema });
+import * as schema from '../src/lib/db/schema';
+import { db } from './utils/connection';
+import { getRandomElements } from './utils/getRandomElement';
 
 const user = await db.query.user.findFirst({ where: eq(schema.user.email, 'g@g.com') });
 
@@ -71,9 +63,3 @@ await generateUserLikes(insertRelationshipsPath);
 await generateUserSongRecommendations(insertRelationshipsPath);
 
 console.log('Generated insert statements for relationships!');
-console.log('Inserting relationships data...');
-const relationshipsQuery = await fs.readFile(`${__dirname}/seed/insert_relationships.sql`, {
-	encoding: 'utf-8'
-});
-await executeQuery(relationshipsQuery, connection, false);
-console.log('Inserted relationships data!');

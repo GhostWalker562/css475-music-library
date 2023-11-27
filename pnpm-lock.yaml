@@ -29,9 +29,6 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
-  csv-stringify:
-    specifier: ^6.4.4
-    version: 6.4.4
   drizzle-orm:
     specifier: ^0.29.0
     version: 0.29.0(@planetscale/database@1.11.0)(mysql2@3.6.3)
@@ -88,6 +85,9 @@ devDependencies:
   csv-parse:
     specifier: ^5.5.2
     version: 5.5.2
+  csv-stringify:
+    specifier: ^6.4.4
+    version: 6.4.4
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -1377,7 +1377,7 @@ packages:
 
   /csv-stringify@6.4.4:
     resolution: {integrity: sha512-NDshLupGa7gp4UG4sSNIqwYJqgSwvds0SvENntxoVoVvTzXcrHvd5gG2MWpbRpSNvk59dlmIe1IwNvSxN4IVmg==}
-    dev: false
+    dev: true
 
   /d@1.0.1:
     resolution: {integrity: sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==}
