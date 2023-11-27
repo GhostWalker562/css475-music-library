@@ -1,9 +1,11 @@
-import { connect } from '@planetscale/database';
+import { sql } from '@vercel/postgres';
+import { drizzle } from 'drizzle-orm/vercel-postgres';
+import { Client } from 'pg';
 import * as dotenv from 'dotenv';
-import { drizzle } from 'drizzle-orm/planetscale-serverless';
 import * as schema from '../../src/lib/db/schema';
 dotenv.config();
 
-export const connection = connect({ url: process.env.DATABASE_URL });
+export const client = new Client({ connectionString: process.env.POSTGRES_URL, ssl: true });
+await client.connect();
 
-export const db = drizzle(connection, { schema });
+export const db = drizzle(sql, { schema });

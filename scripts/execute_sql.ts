@@ -1,17 +1,16 @@
 import { promises as fs } from 'fs';
+import { client } from './utils/connection';
 import * as dotenv from 'dotenv';
-import { executeQuery } from './utils/executeQuery';
 import * as process from 'process';
-import { connection } from './utils/connection';
 dotenv.config();
 
-async function runSqlFile(filePath: string, ordered: boolean): Promise<void> {
+async function runSqlFile(filePath: string): Promise<void> {
 	try {
 		const sqlQuery = await fs.readFile(`${__dirname}/${filePath}`, { encoding: 'utf-8' });
 
 		console.log(`Executing SQL file: ${filePath}`);
 
-		await executeQuery(sqlQuery, connection, ordered);
+		await client.query(sqlQuery);
 
 		console.log('SQL execution completed!');
 	} catch (error) {
@@ -20,15 +19,7 @@ async function runSqlFile(filePath: string, ordered: boolean): Promise<void> {
 }
 
 async function main() {
-	let ordered = true;
-
-	const sqlFilePaths = process.argv.slice(2).filter((arg) => {
-		if (arg === '--unordered') {
-			ordered = false;
-			return false; // Remove the flag argument from the paths array
-		}
-		return true;
-	});
+	const sqlFilePaths = process.argv.slice(2);
 
 	if (sqlFilePaths.length === 0) {
 		console.error('Please provide at least one path to a SQL file.');
@@ -36,8 +27,10 @@ async function main() {
 	}
 
 	for (const filePath of sqlFilePaths) {
-		await runSqlFile(filePath, ordered);
+		await runSqlFile(filePath);
 	}
+
+	process.exit(0);
 }
 
-main();
+await main();

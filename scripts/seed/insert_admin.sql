@@ -1,9 +1,9 @@
 INSERT INTO
-    `auth_user` (
-        `id`,
-        `username`,
-        `email`,
-        `created_at`
+    "auth_user" (
+        "id",
+        "username",
+        "email",
+        "created_at"
     )
 VALUES
     (
@@ -14,7 +14,7 @@ VALUES
     );
 
 INSERT INTO
-    `user_key` (`id`, `user_id`, `hashed_password`)
+    "user_key" ("id", "user_id", "hashed_password")
 VALUES
     (
         'email:g@g.com',

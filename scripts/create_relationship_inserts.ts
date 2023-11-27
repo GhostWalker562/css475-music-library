@@ -21,12 +21,12 @@ const generatePlaylists = async (filePath: string) => {
 		const playlistSongs = getRandomElements(songs, 5);
 		const playlistId = generateRandomString(50);
 
-		const insertPlaylistQuery = `INSERT INTO \`playlist\` (\`id\`, \`name\`, \`created_at\`, \`creator_id\`) VALUES ('${playlistId}', 'Playlist ${i}', '2023-11-17 17:00:08.000','${user.id}');\n`;
+		const insertPlaylistQuery = `INSERT INTO "playlist" ("id", "name", "created_at", "creator_id") VALUES ('${playlistId}', 'Playlist ${i}', '2023-11-17 17:00:08.000','${user.id}');\n`;
 		await fs.appendFile(filePath, insertPlaylistQuery, {});
 
 		await Promise.all(
 			playlistSongs.map(async (song, i) => {
-				const insertPlaylistSongQuery = `INSERT INTO \`playlist_songs\` (\`song_id\`, \`playlist_id\`, \`order\`) VALUES ('${song.id}', '${playlistId}', ${i});\n`;
+				const insertPlaylistSongQuery = `INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('${song.id}', '${playlistId}', ${i});\n`;
 				await fs.appendFile(filePath, insertPlaylistSongQuery, {});
 			})
 		);
@@ -39,7 +39,7 @@ const generateUserLikes = async (filePath: string) => {
 	const userLikes = getRandomElements(songs, 10);
 	await Promise.all(
 		userLikes.map(async (song) => {
-			const insertUserLikeQuery = `INSERT INTO \`user_likes\` (\`user_id\`, \`song_id\`) VALUES ('${user.id}', '${song.id}');\n`;
+			const insertUserLikeQuery = `INSERT INTO "user_likes" ("user_id", "song_id") VALUES ('${user.id}', '${song.id}');\n`;
 			await fs.appendFile(filePath, insertUserLikeQuery, {});
 		})
 	);
@@ -52,14 +52,18 @@ const generateUserSongRecommendations = async (filePath: string) => {
 	await Promise.all(
 		userSongRecommendations.map(async (song) => {
 			const recommendationId = generateRandomString(50);
-			const insertUserSongRecommendationQuery = `INSERT INTO \`user_song_recommendations\` (\`id\`, \`user_id\`, \`song_id\`, \`created_at\`) VALUES ('${recommendationId}', '${user.id}', '${song.id}', '2023-11-17 17:00:08.000');\n`;
+			const insertUserSongRecommendationQuery = `INSERT INTO "user_song_recommendations" ("id", "user_id", "song_id", "created_at") VALUES ('${recommendationId}', '${user.id}', '${song.id}', '2023-11-17 17:00:08.000');\n`;
 			await fs.appendFile(filePath, insertUserSongRecommendationQuery, {});
 		})
 	);
 };
 
-await generatePlaylists(insertRelationshipsPath);
-await generateUserLikes(insertRelationshipsPath);
-await generateUserSongRecommendations(insertRelationshipsPath);
+async function main() {
+	await generatePlaylists(insertRelationshipsPath);
+	await generateUserLikes(insertRelationshipsPath);
+	await generateUserSongRecommendations(insertRelationshipsPath);
 
-console.log('Generated insert statements for relationships!');
+	console.log('Generated insert statements for relationships!');
+	process.exit(0);
+}
+await main();

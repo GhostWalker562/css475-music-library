@@ -1,17 +1,17 @@
-import { sql } from 'drizzle-orm';
 import {
-	bigint,
-	int,
-	mysqlEnum,
-	mysqlTable,
+	pgTable,
 	primaryKey,
+	varchar,
 	timestamp,
-	varchar
-} from 'drizzle-orm/mysql-core';
+	bigint,
+	integer,
+	pgEnum
+} from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { createSelectSchema } from 'drizzle-zod';
 import type { z } from 'zod';
 
-// Note: PlanetScale does not support foreign keys, that's why the references() method is commented out.
+export const genreEnum = pgEnum('genre', ['COUNTRY', 'POP', 'RAP', 'ROCK', 'CLASSICAL', 'JAZZ']);
 
 // auth definitions
 
@@ -19,7 +19,7 @@ const createdAt = timestamp('created_at')
 	.notNull()
 	.default(sql`CURRENT_TIMESTAMP`);
 
-export const user = mysqlTable('auth_user', {
+export const user = pgTable('auth_user', {
 	id: varchar('id', { length: 15 }).primaryKey(),
 	// other user attributes
 	username: varchar('username', { length: 128 }).notNull(),
@@ -29,112 +29,128 @@ export const user = mysqlTable('auth_user', {
 	createdAt
 });
 
-export const session = mysqlTable('user_session', {
+export const session = pgTable('user_session', {
 	id: varchar('id', { length: 128 }).primaryKey(),
-	userId: varchar('user_id', { length: 15 }).notNull(),
-	// .references(() => user.id),
+	userId: varchar('user_id', { length: 15 })
+		.notNull()
+		.references(() => user.id),
 	activeExpires: bigint('active_expires', { mode: 'number' }).notNull(),
 	idleExpires: bigint('idle_expires', { mode: 'number' }).notNull()
 });
 
-export const key = mysqlTable('user_key', {
+export const key = pgTable('user_key', {
 	id: varchar('id', { length: 255 }).primaryKey(),
-	userId: varchar('user_id', { length: 15 }).notNull(),
-	// .references(() => user.id),
+	userId: varchar('user_id', { length: 15 })
+		.notNull()
+		.references(() => user.id),
 	hashedPassword: varchar('hashed_password', { length: 255 })
 });
 
-export const passwordReset = mysqlTable('password_reset', {
+export const passwordReset = pgTable('password_reset', {
 	id: varchar('id', { length: 128 }).primaryKey(),
 	expires: bigint('expires', { mode: 'number' }).notNull(),
-	userId: varchar('user_id', { length: 15 }).notNull()
-	// .references(() => user.id),
+	userId: varchar('user_id', { length: 15 })
+		.notNull()
+		.references(() => user.id)
 });
 
 // application tables
 
-export const artist = mysqlTable('artist', {
-	id: varchar('id', { length: 15 }).primaryKey(),
-	// .references(() => user.id),
+export const artist = pgTable('artist', {
+	id: varchar('id', { length: 15 })
+		.primaryKey()
+		.references(() => user.id),
 	bio: varchar('bio', { length: 400 }),
 	name: varchar('name', { length: 128 }).notNull()
 });
 
-export const album = mysqlTable('album', {
+export const album = pgTable('album', {
 	id: varchar('id', { length: 128 }).primaryKey(),
-	artistId: varchar('artist_id', { length: 15 }).notNull(),
-	// .references(() => artist.id),
+	artistId: varchar('artist_id', { length: 15 })
+		.notNull()
+		.references(() => artist.id),
 	name: varchar('name', { length: 128 }).notNull(),
 	coverImageUrl: varchar('cover_image_url', { length: 255 }),
 	createdAt
 });
 
-export const song = mysqlTable('song', {
+export const song = pgTable('song', {
 	id: varchar('id', { length: 128 }).primaryKey(),
 	name: varchar('name', { length: 128 }).notNull(),
-	artistId: varchar('artist_id', { length: 15 }).notNull(),
-	// .references(() => artist.id),
-	duration: int('duration').notNull(),
-	genre: mysqlEnum('genre', ['COUNTRY', 'POP', 'RAP', 'ROCK', 'CLASSICAL', 'JAZZ']).notNull(),
+	artistId: varchar('artist_id', { length: 15 })
+		.notNull()
+		.references(() => artist.id),
+	duration: integer('duration').notNull(),
+	genre: genreEnum('genre').notNull(),
 	spotifyId: varchar('spotify_id', { length: 128 }),
 	previewUrl: varchar('preview_url', { length: 255 }),
 	createdAt
 });
 
-export const playlist = mysqlTable('playlist', {
+export const playlist = pgTable('playlist', {
 	id: varchar('id', { length: 128 }).primaryKey(),
 	name: varchar('name', { length: 128 }).notNull(),
-	creatorId: varchar('creator_id', { length: 15 }).notNull(),
-	// .references(() => user.id),
+	creatorId: varchar('creator_id', { length: 15 })
+		.notNull()
+		.references(() => user.id),
 	createdAt
 });
 
 // index tables
 
-export const userSongRecommendations = mysqlTable(
+export const userSongRecommendations = pgTable(
 	'user_song_recommendations',
 	{
 		id: varchar('id', { length: 128 }).notNull(),
-		userId: varchar('user_id', { length: 15 }).notNull(),
-		// .references(() => user.id),
-		songId: varchar('song_id', { length: 128 }).notNull(),
-		// .references(() => song.id),
+		userId: varchar('user_id', { length: 15 })
+			.notNull()
+			.references(() => user.id),
+		songId: varchar('song_id', { length: 128 })
+			.notNull()
+			.references(() => song.id),
 		createdAt
 	},
 	(t) => ({ pk: primaryKey({ columns: [t.id, t.userId, t.songId] }) })
 );
 
-export const playlistSongs = mysqlTable(
+export const playlistSongs = pgTable(
 	'playlist_songs',
 	{
-		playlistId: varchar('playlist_id', { length: 128 }).notNull(),
-		// .references(() => playlist.id),
-		songId: varchar('song_id', { length: 128 }).notNull(),
-		// .references(() => song.id),
-		order: int('order').notNull().default(0)
+		playlistId: varchar('playlist_id', { length: 128 })
+			.notNull()
+			.references(() => playlist.id),
+		songId: varchar('song_id', { length: 128 })
+			.notNull()
+			.references(() => song.id),
+		order: integer('order').notNull().default(0)
 	},
 	(t) => ({ pk: primaryKey({ columns: [t.playlistId, t.songId] }) })
 );
 
-export const albumSongs = mysqlTable(
+export const albumSongs = pgTable(
 	'album_songs',
 	{
-		albumId: varchar('album_id', { length: 128 }).notNull(),
-		// .references(() => album.id),
-		songId: varchar('song_id', { length: 128 }).unique().notNull(),
-		// .references(() => song.id),
-		order: int('order').notNull().default(0)
+		albumId: varchar('album_id', { length: 128 })
+			.notNull()
+			.references(() => album.id),
+		songId: varchar('song_id', { length: 128 })
+			.unique()
+			.notNull()
+			.references(() => song.id),
+		order: integer('order').notNull().default(0)
 	},
 	(t) => ({ pk: primaryKey({ columns: [t.albumId, t.songId] }) })
 );
 
-export const userLikes = mysqlTable(
+export const userLikes = pgTable(
 	'user_likes',
 	{
-		userId: varchar('user_id', { length: 15 }).notNull(),
-		// .references(() => user.id),
-		songId: varchar('song_id', { length: 128 }).notNull()
-		// .references(() => song.id),
+		userId: varchar('user_id', { length: 15 })
+			.notNull()
+			.references(() => user.id),
+		songId: varchar('song_id', { length: 128 })
+			.notNull()
+			.references(() => song.id)
 	},
 	(t) => ({ pk: primaryKey({ columns: [t.userId, t.songId] }) })
 );
