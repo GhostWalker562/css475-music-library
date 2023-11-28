@@ -18,10 +18,7 @@
 		"db:songs": "bun run ./scripts/create_kaggle_inserts.ts",
 		"db:setup": "bun db:execute seed/create_tables.sql seed/insert_admin.sql",
 		"db:execute": "bun run ./scripts/execute_sql.ts",
-		"db:join-spotify": "bun run ./scripts/join_spotify_dataset.ts",
-		"docker:up": "docker-compose up -d",
-		"docker:down": "docker-compose down",
-		"docker:restart": "bun run docker:down && bun run docker:up"
+		"db:join-spotify": "bun run ./scripts/join_spotify_dataset.ts"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.1.1",
