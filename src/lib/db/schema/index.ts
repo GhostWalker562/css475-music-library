@@ -90,7 +90,7 @@ export const song = pgTable('song', {
 export const playlist = pgTable('playlist', {
 	id: varchar('id', { length: 128 }).primaryKey(),
 	name: varchar('name', { length: 128 }).notNull(),
-	creatorId: varchar('creator_id', { length: 15 })
+	userId: varchar('user_id', { length: 15 })
 		.notNull()
 		.references(() => user.id),
 	createdAt

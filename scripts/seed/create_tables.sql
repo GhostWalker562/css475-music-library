@@ -106,9 +106,9 @@ CREATE TABLE "playlist" (
     "id" varchar(128) NOT NULL,
     "name" varchar (128) NOT NULL,
     "created_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "creator_id" varchar(128) NOT NULL,
+    "user_id" varchar(128) NOT NULL,
     CONSTRAINT "playlists_id_pk" PRIMARY KEY ("id"),
-    FOREIGN KEY ("creator_id") REFERENCES "auth_user" ("id")
+    FOREIGN KEY ("user_id") REFERENCES "auth_user" ("id")
 );
 
 -- Index Tables

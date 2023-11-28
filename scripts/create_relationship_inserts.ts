@@ -21,7 +21,7 @@ const generatePlaylists = async (filePath: string) => {
 		const playlistSongs = getRandomElements(songs, 5);
 		const playlistId = generateRandomString(50);
 
-		const insertPlaylistQuery = `INSERT INTO "playlist" ("id", "name", "created_at", "creator_id") VALUES ('${playlistId}', 'Playlist ${i}', '2023-11-17 17:00:08.000','${user.id}');\n`;
+		const insertPlaylistQuery = `INSERT INTO "playlist" ("id", "name", "created_at", "user_id") VALUES ('${playlistId}', 'Playlist ${i}', '2023-11-17 17:00:08.000','${user.id}');\n`;
 		await fs.appendFile(filePath, insertPlaylistQuery, {});
 
 		await Promise.all(

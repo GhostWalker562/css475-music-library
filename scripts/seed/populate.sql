@@ -107,9 +107,9 @@ CREATE TABLE "playlist" (
     "id" varchar(128) NOT NULL,
     "name" varchar (128) NOT NULL,
     "created_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "creator_id" varchar(128) NOT NULL,
+    "user_id" varchar(128) NOT NULL,
     CONSTRAINT "playlists_id_pk" PRIMARY KEY ("id"),
-    FOREIGN KEY ("creator_id") REFERENCES "auth_user" ("id")
+    FOREIGN KEY ("user_id") REFERENCES "auth_user" ("id")
 );
 
 -- Index Tables
@@ -749,13 +749,13 @@ INSERT INTO "album_songs"("album_id", "song_id", "order") VALUES ('xmkqvefoxc5j9
 
 -- File: insert_relationships.sql
 -- Playlists
-INSERT INTO "playlist" ("id", "name", "created_at", "creator_id") VALUES ('woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 'Playlist 0', '2023-11-17 17:00:08.000','icqlt67n2fd7p34');
+INSERT INTO "playlist" ("id", "name", "created_at", "user_id") VALUES ('woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 'Playlist 0', '2023-11-17 17:00:08.000','icqlt67n2fd7p34');
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('sw7ur9xnv28g12afgdiv2lgywon8wzah4i12wf7y0d2pxdh5pk', 'woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 0);
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('x1jeisgqhdizvhxbc5c9hb3uutz5pz80wa4o12yqsn3oma1iaf', 'woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 3);
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('3vzk5fb5w1qxefq7iy82pq5cdpig9yf4lkyoe8hr1dji9ijto5', 'woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 2);
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('vwr6uv8r990rf02cd9mmtr1rh9dcfdk3ilin4rtdqa6u7hh3o5', 'woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 4);
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('sig7uzt7q6k0l4z50kxrc1eqhxcqen54gcp3s78jd00i3rxeq9', 'woh6zydz2cm4r9c6lfpk6f5tc33jtvzba1362wg81n5zmbllnn', 1);
-INSERT INTO "playlist" ("id", "name", "created_at", "creator_id") VALUES ('g2w1u86erll2pb5ph1msrmd5fpkn44m78c7dz1fcm7s7mpzggq', 'Playlist 1', '2023-11-17 17:00:08.000','icqlt67n2fd7p34');
+INSERT INTO "playlist" ("id", "name", "created_at", "user_id") VALUES ('g2w1u86erll2pb5ph1msrmd5fpkn44m78c7dz1fcm7s7mpzggq', 'Playlist 1', '2023-11-17 17:00:08.000','icqlt67n2fd7p34');
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('7l0t0jpcll7zcrqyis2re44tix1p0zwzchl60ksv3u8mh5r4c4', 'g2w1u86erll2pb5ph1msrmd5fpkn44m78c7dz1fcm7s7mpzggq', 0);
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('u22oe79s4gqq3a8x86cuzzfkzfv8j6oga05eeb6wnfv5ix7pdf', 'g2w1u86erll2pb5ph1msrmd5fpkn44m78c7dz1fcm7s7mpzggq', 4);
 INSERT INTO "playlist_songs" ("song_id", "playlist_id", "order") VALUES ('iy57c5r15qshav24j4yqs19i6ey1sjm7f7udnks32iih2w4ubh', 'g2w1u86erll2pb5ph1msrmd5fpkn44m78c7dz1fcm7s7mpzggq', 1);
