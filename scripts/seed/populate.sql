@@ -119,7 +119,8 @@ CREATE TABLE "album_songs" (
     "order" int NOT NULL DEFAULT 0,
     CONSTRAINT "album_songs_album_id_song_id_pk" PRIMARY KEY("album_id", "song_id"),
     UNIQUE (song_id),
-    FOREIGN KEY ("album_id") REFERENCES "album" ("id")
+    FOREIGN KEY ("album_id") REFERENCES "album" ("id"),
+    FOREIGN KEY ("song_id") REFERENCES "song" ("id")
 );
 
 CREATE TABLE "playlist_songs" (
