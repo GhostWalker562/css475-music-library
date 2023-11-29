@@ -80,7 +80,6 @@ export const song = pgTable('song', {
 	artistId: varchar('artist_id', { length: 15 })
 		.notNull()
 		.references(() => artist.id),
-	duration: integer('duration').notNull(),
 	genre: genreEnum('genre').notNull(),
 	spotifyId: varchar('spotify_id', { length: 128 }),
 	previewUrl: varchar('preview_url', { length: 255 }),

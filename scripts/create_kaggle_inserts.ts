@@ -120,9 +120,9 @@ async function main(songs: Song[]) {
 		for (let j = 0; j < artistSongs.length; j++) {
 			const songId = generateRandomString(50);
 			const song = artistSongs[j];
-			const insertSongQuery = `INSERT INTO "song" ("id", "name", "artist_id","duration", "genre", "spotify_id", "preview_url", "created_at") VALUES ('${songId}','${sanitizeSongName(
+			const insertSongQuery = `INSERT INTO "song" ("id", "name", "artist_id", "genre", "spotify_id", "preview_url", "created_at") VALUES ('${songId}','${sanitizeSongName(
 				song.track_name
-			)}','${artistId}',100,'POP',${
+			)}','${artistId}','POP',${
 				song.spotify_track_id ? `'${song.spotify_track_id}'` : 'NULL'
 			},${
 				song.spotify_preview_url ? `'${song.spotify_preview_url}'` : 'NULL'

@@ -97,7 +97,6 @@ CREATE TABLE "song" (
     "id" varchar(128) NOT NULL,
     "name" varchar (128) NOT NULL,
     "artist_id" varchar(15) NOT NULL,
-    "duration" int NOT NULL,
     "genre" "genre" NOT NULL,
     "spotify_id" varchar(128),
     "preview_url" varchar(255),
