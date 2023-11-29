@@ -9,14 +9,14 @@
 
 <ViewTransition />
 
-<div class="h-screen overflow-y-hidden">
-	<!-- Navigation Bar -->
+<!-- Navigation Bar -->
+<header class="fixed w-full z-30 top-0 bg-background">
 	<Menu user={data.user} />
+</header>
 
-	<div class="grid lg:grid-cols-5 h-full">
-		<Sidebar class="hidden lg:block" />
-		<div class="col-span-4 w-full pr-8 pl-4 py-8 h-full overflow-y-auto overflow-x-hidden">
-			<slot />
-		</div>
+<div class="grid lg:grid-cols-5 h-full pt-14">
+	<Sidebar class="hidden lg:block" />
+	<div class="col-span-4 w-full pr-8 pl-4 py-8 h-full overflow-y-auto overflow-x-hidden">
+		<slot />
 	</div>
 </div>

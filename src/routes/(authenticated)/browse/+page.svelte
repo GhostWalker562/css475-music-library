@@ -8,6 +8,7 @@
 	import { infiniteScroll } from '$lib/utils/infiniteScroll';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import type { TracksResponse } from '../../api/tracks/+server';
+	import { Music } from 'lucide-svelte';
 
 	let timeout: NodeJS.Timeout;
 
@@ -15,7 +16,11 @@
 		clearTimeout(timeout);
 		timeout = setTimeout(() => {
 			if (!(e.target as HTMLInputElement).value) goto('/browse', { keepFocus: true });
-			else goto(`?search=${(e.target as HTMLInputElement).value}`, { keepFocus: true });
+			else
+				goto(`?search=${(e.target as HTMLInputElement).value}`, {
+					keepFocus: true,
+					replaceState: false
+				});
 		}, delay);
 	};
 
@@ -43,16 +48,25 @@
 		/>
 	</SectionHeader>
 </div>
-<div
-	class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
->
-	{#each flatTracks as track}
-		<TrackItem  {track} />
-	{/each}
+
+{#if flatTracks.length === 0}
+	<div class="h-full center flex-col gap-4 py-24">
+		<Music class="h-24 w-24 " />
+		<h1 class="text-3xl">No Songs Found</h1>
+		<p class="opacity-50">Try searching for something else</p>
+	</div>
+{:else}
 	<div
-		use:infiniteScroll={{
-			hasMore: $tracks.hasNextPage,
-			onEndReached: () => $tracks.fetchNextPage()
-		}}
-	/>
-</div>
+		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
+	>
+		{#each flatTracks as track}
+			<TrackItem {track} />
+		{/each}
+		<div
+			use:infiniteScroll={{
+				hasMore: $tracks.hasNextPage,
+				onEndReached: () => $tracks.fetchNextPage()
+			}}
+		/>
+	</div>
+{/if}

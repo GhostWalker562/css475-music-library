@@ -4,6 +4,7 @@ import { searchForTracks } from '../../../../scripts/queries/searchForTracks';
 import { selectAllTracks } from '../../../../scripts/queries/selectAllTracks';
 import { selectTracksCount } from '../../../../scripts/queries/selectTracksCount';
 import type { RequestHandler } from './$types';
+import { formatSearchQuery } from '$lib/utils/formatSearchQuery';
 
 const searchParamsSchema = z.object({
 	page: z
@@ -27,7 +28,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	const searchParams = searchParamsSchema.parse(Object.fromEntries(url.searchParams.entries()));
 
 	const tracks = searchParams.search
-		? await searchForTracks(searchParams.search)
+		? await searchForTracks(formatSearchQuery(searchParams.search))
 		: await selectAllTracks(searchParams.limit, searchParams.page);
 
 	const tracksCount = (await selectTracksCount())[0].count;

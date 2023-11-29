@@ -8,6 +8,7 @@
 	import { infiniteScroll } from '$lib/utils/infiniteScroll';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import type { ArtistsResponse } from '../../api/artists/+server';
+	import { Users } from 'lucide-svelte';
 
 	let timeout: NodeJS.Timeout;
 
@@ -44,16 +45,24 @@
 	</SectionHeader>
 </div>
 
-<div
-	class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
->
-	{#each flatArtists as item}
-		<ArtistItem {item} />
-	{/each}
+{#if flatArtists.length === 0}
+	<div class="h-full center flex-col gap-4 py-24">
+		<Users class="h-24 w-24 " />
+		<h1 class="text-3xl">No Artists Found</h1>
+		<p class="opacity-50">Try searching for something else</p>
+	</div>
+{:else}
 	<div
-		use:infiniteScroll={{
-			hasMore: $artists.hasNextPage,
-			onEndReached: () => $artists.fetchNextPage()
-		}}
-	/>
-</div>
+		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
+	>
+		{#each flatArtists as item}
+			<ArtistItem {item} />
+		{/each}
+		<div
+			use:infiniteScroll={{
+				hasMore: $artists.hasNextPage,
+				onEndReached: () => $artists.fetchNextPage()
+			}}
+		/>
+	</div>
+{/if}
