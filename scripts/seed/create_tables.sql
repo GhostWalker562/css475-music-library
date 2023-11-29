@@ -24,6 +24,10 @@ DROP TABLE IF EXISTS "auth_user";
 
 DROP TYPE IF EXISTS "genre";
 
+DROP INDEX IF EXISTS idx_song_name_fulltext;
+
+DROP INDEX IF EXISTS idx_artist_name_fulltext;
+
 -- Enums
 CREATE TYPE "genre" AS ENUM(
     'COUNTRY',
@@ -148,3 +152,8 @@ CREATE TABLE "user_song_recommendations" (
     FOREIGN KEY ("user_id") REFERENCES "auth_user" ("id"),
     FOREIGN KEY ("song_id") REFERENCES "song" ("id")
 );
+
+-- Indexes
+CREATE INDEX idx_song_name_fulltext ON "song" USING GIN (to_tsvector('simple', "name"));
+
+CREATE INDEX idx_artist_name_fulltext ON "artist" USING GIN (to_tsvector('simple', "name"));

@@ -62,8 +62,10 @@ const sanitizeSongName = (songName: string) => songName.replaceAll("'", '');
 async function main(songs: Song[]) {
 	const artists: { [name: string]: Song[] } = {};
 
-	for (let i = 1; i <= 100; i++) {
+	for (let i = 1; i <= 450; i++) {
 		const song = songs[i];
+
+		if (song.track_name === '') continue;
 
 		// If artists[song.artists_name] exists, push song to it
 		const artist = song.artists_name.split(',')[0];
