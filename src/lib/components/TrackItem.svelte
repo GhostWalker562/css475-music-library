@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { AspectRatio } from '$lib/components/ui/aspect-ratio';
 	import type { Track } from '$lib/types/music';
+	import { fade } from 'svelte/transition';
 	import CoverImage from './CoverImage.svelte';
 
 	export let track: Track;

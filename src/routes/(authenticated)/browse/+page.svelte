@@ -26,7 +26,7 @@
 		queryFn: async ({ pageParam = 0 }) => fetchTracks(pageParam as number, query),
 		getNextPageParam: ({ nextPage }: TracksResponse) => nextPage,
 		initialPageParam: 0,
-		staleTime: 2 * 60 * 1000 // 2 minutes
+		staleTime: 4 * 60 * 1000 // 4 minutes
 	});
 
 	$: flatTracks = $tracks.data?.pages.flatMap((page) => page.tracks) ?? [];
@@ -43,9 +43,11 @@
 		/>
 	</SectionHeader>
 </div>
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+<div
+	class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
+>
 	{#each flatTracks as track}
-		<TrackItem {track} />
+		<TrackItem  {track} />
 	{/each}
 	<div
 		use:infiniteScroll={{

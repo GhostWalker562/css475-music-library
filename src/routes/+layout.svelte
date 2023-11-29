@@ -35,7 +35,7 @@
 </svelte:head>
 
 <QueryClientProvider client={data.queryClient}>
-	<div class="min-h-screen">
+	<div class="max-h-screen">
 		<slot />
 	</div>
 </QueryClientProvider>

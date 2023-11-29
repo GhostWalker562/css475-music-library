@@ -26,8 +26,7 @@
 		queryFn: async ({ pageParam = 0 }) => fetchArtists(pageParam as number, query),
 		getNextPageParam: ({ nextPage }: ArtistsResponse) => nextPage,
 		initialPageParam: 0,
-
-		staleTime: 2 * 60 * 1000 // 2 minutes
+		staleTime: 4 * 60 * 1000 // 2 minutes
 	});
 
 	$: flatArtists = $artists.data?.pages.flatMap((page) => page.artists) ?? [];
@@ -45,7 +44,9 @@
 	</SectionHeader>
 </div>
 
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+<div
+	class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
+>
 	{#each flatArtists as item}
 		<ArtistItem {item} />
 	{/each}

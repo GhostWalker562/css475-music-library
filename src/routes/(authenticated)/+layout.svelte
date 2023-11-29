@@ -9,12 +9,14 @@
 
 <ViewTransition />
 
-<!-- Navigation Bar -->
-<Menu user={data.user} />
+<div class="h-screen overflow-y-hidden">
+	<!-- Navigation Bar -->
+	<Menu user={data.user} />
 
-<div class="grid lg:grid-cols-5">
-	<Sidebar class="hidden lg:block" />
-	<div class="col-span-4 w-full pr-8 pl-4 py-8">
-		<slot />
+	<div class="grid lg:grid-cols-5 h-full">
+		<Sidebar class="hidden lg:block" />
+		<div class="col-span-4 w-full pr-8 pl-4 py-8 h-full overflow-y-auto overflow-x-hidden">
+			<slot />
+		</div>
 	</div>
 </div>
