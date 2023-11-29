@@ -14,6 +14,15 @@ dependencies:
   '@sendgrid/mail':
     specifier: ^7.7.0
     version: 7.7.0
+  '@tanstack/query-persist-client-core':
+    specifier: ^5.8.7
+    version: 5.8.7
+  '@tanstack/query-sync-storage-persister':
+    specifier: ^5.8.7
+    version: 5.8.7
+  '@tanstack/svelte-query':
+    specifier: ^5.8.7
+    version: 5.8.7(svelte@4.2.7)
   '@types/pg':
     specifier: ^8.10.9
     version: 8.10.9
@@ -895,6 +904,32 @@ packages:
     resolution: {integrity: sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==}
     dependencies:
       tslib: 2.6.2
+    dev: false
+
+  /@tanstack/query-core@5.8.7:
+    resolution: {integrity: sha512-58xOSkxxZK4SGQ/uzX8MDZHLGZCkxlgkPxnfhxUOL2uchnNHyay2UVcR3mQNMgaMwH1e2l+0n+zfS7+UJ/MAJw==}
+    dev: false
+
+  /@tanstack/query-persist-client-core@5.8.7:
+    resolution: {integrity: sha512-FjzuDR9L0eCUEr+kN5x90HR0v4O4g2c/kqgE23KWdo2cHLfXyQ7SeUuPDSYdPnyQ1CqgdbWulqtsn/8rY5pvJg==}
+    dependencies:
+      '@tanstack/query-core': 5.8.7
+    dev: false
+
+  /@tanstack/query-sync-storage-persister@5.8.7:
+    resolution: {integrity: sha512-wfY3fMEWdM9kHz/iI8yUEHiCDroWZUF5fT23QXfFFpOfF2MuncUq+ggQlCanx1ZNIWPKGkyJx/Ybs/0/C5Y2Rg==}
+    dependencies:
+      '@tanstack/query-core': 5.8.7
+      '@tanstack/query-persist-client-core': 5.8.7
+    dev: false
+
+  /@tanstack/svelte-query@5.8.7(svelte@4.2.7):
+    resolution: {integrity: sha512-KzilehNQQO4wxxucEy1NJMo0q/NZ0nhrq5TX5MNzklsu0QZ5x+Hn5x7DVox4uKazkCuro1S7PhGEAwFQnHTuwQ==}
+    peerDependencies:
+      svelte: '>=3 <5'
+    dependencies:
+      '@tanstack/query-core': 5.8.7
+      svelte: 4.2.7
     dev: false
 
   /@types/cookie@0.5.4:

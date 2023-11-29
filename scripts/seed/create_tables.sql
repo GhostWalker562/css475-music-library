@@ -43,7 +43,7 @@ CREATE TABLE "auth_user" (
     "id" varchar(15) NOT NULL,
     "username" varchar(128) NOT NULL,
     "github_username" varchar(255) UNIQUE,
-    "email" varchar(255) UNIQUE,
+    "email" varchar(128) UNIQUE,
     "created_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "profile_image_url" varchar(255),
     CONSTRAINT "auth_user_id" PRIMARY KEY("id")

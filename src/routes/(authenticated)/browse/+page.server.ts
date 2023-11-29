@@ -1,5 +1,4 @@
 import { redirect } from '@sveltejs/kit';
-import { selectAllTracks } from '../../../../scripts/queries/selectAllTracks';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
@@ -7,7 +6,5 @@ export const load = (async ({ locals }) => {
 
 	if (!session) throw redirect(303, '/login');
 
-	const tracks = await selectAllTracks();
-
-	return { tracks };
+	return {};
 }) satisfies PageServerLoad;

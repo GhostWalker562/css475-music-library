@@ -24,7 +24,7 @@ export const user = pgTable('auth_user', {
 	// other user attributes
 	username: varchar('username', { length: 128 }).notNull(),
 	githubUsername: varchar('github_username', { length: 255 }).unique(),
-	email: varchar('email', { length: 255 }).unique(),
+	email: varchar('email', { length: 128 }).unique(),
 	profileImageUrl: varchar('profile_image_url', { length: 255 }),
 	createdAt
 });

@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
 	import '../app.postcss';
 	import { ModeWatcher } from 'mode-watcher';
 	import { dev } from '$app/environment';
+	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { inject } from '@vercel/analytics';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
 
 	inject({ mode: dev ? 'development' : 'production' });
 </script>
@@ -30,6 +34,8 @@
 	<meta property="og:type" content="website" />
 </svelte:head>
 
-<div class="min-h-screen">
-	<slot />
-</div>
+<QueryClientProvider client={data.queryClient}>
+	<div class="min-h-screen">
+		<slot />
+	</div>
+</QueryClientProvider>
