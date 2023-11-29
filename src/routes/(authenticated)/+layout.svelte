@@ -14,7 +14,7 @@
 	<Menu user={data.user} />
 </header>
 
-<div class="grid lg:grid-cols-5 h-full pt-14">
+<div class="grid lg:grid-cols-5 h-full py-14">
 	<Sidebar class="hidden lg:block" />
 	<div class="col-span-4 w-full pr-8 pl-4 py-8 h-full overflow-y-auto overflow-x-hidden">
 		<slot />
