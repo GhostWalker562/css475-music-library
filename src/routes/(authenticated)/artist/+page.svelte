@@ -1,26 +1,16 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import ArtistItem from '$lib/components/ArtistItem.svelte';
+	import DebouncedSearch from '$lib/components/DebouncedSearch.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { fetchArtists, getFetchArtistsQueryKey } from '$lib/queries/fetchArtists';
 	import { infiniteScroll } from '$lib/utils/infiniteScroll';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
-	import type { ArtistsResponse } from '../../api/artists/+server';
 	import { Users } from 'lucide-svelte';
+	import type { ArtistsResponse } from '../../api/artists/+server';
 
-	let timeout: NodeJS.Timeout;
-
-	const debounceSearch = (e: InputEvent, delay: number) => {
-		clearTimeout(timeout);
-		timeout = setTimeout(() => {
-			if (!(e.target as HTMLInputElement).value) goto('/artist', { keepFocus: true });
-			else goto(`?search=${(e.target as HTMLInputElement).value}`, { keepFocus: true });
-		}, delay);
-	};
-
-	$: query = $page.url.searchParams.get('search') ?? undefined;
+	let search: (e: InputEvent) => void | undefined;
+	let query: string | undefined;
 
 	$: artists = createInfiniteQuery<ArtistsResponse>({
 		queryKey: getFetchArtistsQueryKey(query),
@@ -33,10 +23,12 @@
 	$: flatArtists = $artists.data?.pages.flatMap((page) => page.artists) ?? [];
 </script>
 
+<DebouncedSearch bind:search bind:query defaultRoute="/artist" />
+
 <div class="px-2">
 	<SectionHeader title="Discover Artists" subtitle="Find trending artists">
 		<Input
-			on:input={(e) => debounceSearch(e, 600)}
+			on:input={(e) => search?.(e)}
 			type="search"
 			value={query}
 			placeholder="Search..."

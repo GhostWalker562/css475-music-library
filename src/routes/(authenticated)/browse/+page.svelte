@@ -1,30 +1,16 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import DebouncedSearch from '$lib/components/DebouncedSearch.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
 	import TrackItem from '$lib/components/TrackItem.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { fetchTracks, getFetchTracksQueryKey } from '$lib/queries/fetchTracks';
 	import { infiniteScroll } from '$lib/utils/infiniteScroll';
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
-	import type { TracksResponse } from '../../api/tracks/+server';
 	import { Music } from 'lucide-svelte';
+	import type { TracksResponse } from '../../api/tracks/+server';
 
-	let timeout: NodeJS.Timeout;
-
-	const debounceSearch = (e: InputEvent, delay: number) => {
-		clearTimeout(timeout);
-		timeout = setTimeout(() => {
-			if (!(e.target as HTMLInputElement).value) goto('/browse', { keepFocus: true });
-			else
-				goto(`?search=${(e.target as HTMLInputElement).value}`, {
-					keepFocus: true,
-					replaceState: false
-				});
-		}, delay);
-	};
-
-	$: query = $page.url.searchParams.get('search') ?? undefined;
+	let search: (e: InputEvent) => void | undefined;
+	let query: string | undefined;
 
 	$: tracks = createInfiniteQuery<TracksResponse>({
 		queryKey: getFetchTracksQueryKey(query),
@@ -37,12 +23,14 @@
 	$: flatTracks = $tracks.data?.pages.flatMap((page) => page.tracks) ?? [];
 </script>
 
+<DebouncedSearch bind:search bind:query defaultRoute="/browse" />
+
 <div class="px-2">
 	<SectionHeader title="All Songs" subtitle="Check out all the songs in our library">
 		<Input
-			on:input={(e) => debounceSearch(e, 600)}
-			type="search"
+			on:input={(e) => search(e)}
 			value={query}
+			type="search"
 			placeholder="Search..."
 			class="h-9 my-2 md:my-0 md:w-[300px] "
 		/>
