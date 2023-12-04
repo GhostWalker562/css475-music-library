@@ -6,9 +6,7 @@ import { toggleLike } from '../../../../../scripts/queries/toggleLike';
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
 
-const toggleLikeSchema = z.object({
-	isLiked: z.boolean()
-});
+const toggleLikeSchema = z.object({ isLiked: z.boolean() });
 
 export const load = (async ({ locals, params }) => {
 	const session = await locals.auth.validate();

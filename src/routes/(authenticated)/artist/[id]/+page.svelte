@@ -5,6 +5,7 @@
 	import { MoveLeft } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import CoverImage from '$lib/components/CoverImage.svelte';
+	import TracksTable from '$lib/components/tables/TracksTable';
 
 	export let data: PageData;
 </script>
@@ -15,7 +16,7 @@
 	on:click={() => (history.length > 1 ? history.go(-1) : goto('/browse'))}
 >
 	<MoveLeft class="w-4 h-4 mr-2" />
-	Browse
+	Artists
 </Button>
 
 <CoverImage
@@ -25,3 +26,5 @@
 />
 
 <SectionHeader title={data.artist.artist.name} subtitle={data.artist.artist.bio} />
+
+<TracksTable data={data.tracks} />
