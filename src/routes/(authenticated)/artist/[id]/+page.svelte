@@ -10,21 +10,23 @@
 	export let data: PageData;
 </script>
 
-<Button
-	variant="link"
-	class="mb-4"
-	on:click={() => (history.length > 1 ? history.go(-1) : goto('/browse'))}
->
-	<MoveLeft class="w-4 h-4 mr-2" />
-	Artists
-</Button>
+<div class="px-2">
+	<Button
+		variant="link"
+		class="mb-4"
+		on:click={() => (history.length > 1 ? history.go(-1) : goto('/browse'))}
+	>
+		<MoveLeft class="w-4 h-4 mr-2" />
+		Artists
+	</Button>
 
-<CoverImage
-	src={data.artist.auth_user.profileImageUrl}
-	fallbackSeed={data.artist.artist.name}
-	class="w-72 h-72 rounded-lg border mb-4"
-/>
+	<CoverImage
+		src={data.artist.auth_user.profileImageUrl}
+		fallbackSeed={data.artist.artist.name}
+		class="w-72 h-72 rounded-lg border mb-4"
+	/>
 
-<SectionHeader title={data.artist.artist.name} subtitle={data.artist.artist.bio} />
+	<SectionHeader title={data.artist.artist.name} subtitle={data.artist.artist.bio} />
 
-<TracksTable data={data.tracks} />
+	<TracksTable data={data.tracks} />
+</div>

@@ -21,7 +21,9 @@ export const load = (async ({ parent, fetch, url }) => {
 		queryFn: async ({ pageParam = 0 }) =>
 			fetchArtists(pageParam as number, searchParams.search, fetch),
 		getNextPageParam: ({ nextPage }: ArtistsResponse) => nextPage,
-		initialPageParam: 0
+		initialPageParam: 0,
+		pages: 1,
+		staleTime: 60 * 1000 * 3 // 3 minutes
 	});
 
 	return {};
