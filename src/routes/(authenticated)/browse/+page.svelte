@@ -8,6 +8,7 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import { Music } from 'lucide-svelte';
 	import type { TracksResponse } from '../../api/tracks/+server';
+	import SkeletonTrackItem from '$lib/components/SkeletonTrackItem.svelte';
 
 	let search: (e: InputEvent) => void | undefined;
 	let query: string | undefined;
@@ -37,7 +38,15 @@
 	</SectionHeader>
 </div>
 
-{#if flatTracks.length === 0}
+{#if $tracks.isLoading}
+	<div
+		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
+	>
+		{#each new Array(15) as _}
+			<SkeletonTrackItem />
+		{/each}
+	</div>
+{:else if flatTracks.length === 0}
 	<div class="h-full center flex-col gap-4 py-24">
 		<Music class="h-24 w-24 " />
 		<h1 class="text-3xl">No Songs Found</h1>

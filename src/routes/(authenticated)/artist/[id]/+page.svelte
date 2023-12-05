@@ -1,24 +1,16 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import { Button } from '$lib/components/ui/button';
-	import { MoveLeft } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import CoverImage from '$lib/components/CoverImage.svelte';
 	import TracksTable from '$lib/components/tables/TracksTable';
+	import BackButton from '$lib/components/BackButton.svelte';
 
 	export let data: PageData;
 </script>
 
-<div class="px-2">
-	<Button
-		variant="link"
-		class="mb-4"
-		on:click={() => (history.length > 1 ? history.go(-1) : goto('/browse'))}
-	>
-		<MoveLeft class="w-4 h-4 mr-2" />
-		Artists
-	</Button>
+<div class="px-2 min-h-screen pb-24">
+	<BackButton label="Artists" defaultRoute="/artist" />
 
 	<CoverImage
 		src={data.artist.auth_user.profileImageUrl}

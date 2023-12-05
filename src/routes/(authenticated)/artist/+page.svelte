@@ -2,6 +2,7 @@
 	import ArtistItem from '$lib/components/ArtistItem.svelte';
 	import DebouncedSearch from '$lib/components/DebouncedSearch.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import SkeletonTrackItem from '$lib/components/SkeletonTrackItem.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { fetchArtists, getFetchArtistsQueryKey } from '$lib/queries/fetchArtists';
 	import { infiniteScroll } from '$lib/utils/infiniteScroll';
@@ -37,7 +38,15 @@
 	</SectionHeader>
 </div>
 
-{#if flatArtists.length === 0}
+{#if $artists.isLoading}
+	<div
+		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
+	>
+		{#each new Array(15) as _}
+			<SkeletonTrackItem />
+		{/each}
+	</div>
+{:else if flatArtists.length === 0}
 	<div class="h-full center flex-col gap-4 py-24">
 		<Users class="h-24 w-24 " />
 		<h1 class="text-3xl">No Artists Found</h1>
