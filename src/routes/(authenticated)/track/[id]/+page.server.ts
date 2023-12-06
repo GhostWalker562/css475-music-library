@@ -13,11 +13,12 @@ export const load = (async ({ locals, params }) => {
 
 	if (!session) throw redirect(303, '/login');
 
-	const track = (await selectTrack(params.id))[0];
+	const [track, isLiked] = await Promise.all([
+		(await selectTrack(params.id)).at(0),
+		selectIsTrackLiked(session.user.userId, params.id)
+	]);
 
 	if (!track) throw redirect(303, '/');
-
-	const isLiked = await selectIsTrackLiked(session.user.userId, params.id);
 
 	return { track, isLiked };
 }) satisfies PageServerLoad;

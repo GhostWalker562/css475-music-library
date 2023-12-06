@@ -4,16 +4,20 @@ import { auth } from '$lib/server/lucia';
 import { selectAllUserRecommendedTracks } from '../../../scripts/queries/selectAllUserRecommendedTracks';
 import { selectAllTracksLimited } from '../../../scripts/queries/selectAllTracksLimited';
 
-export const load = (async ({ locals }) => {
+export const load = (async ({ locals, setHeaders }) => {
 	const session = await locals.auth.validate();
 
 	if (!session) throw redirect(303, '/login');
 
-	const recommendations = await selectAllUserRecommendedTracks(session.user.userId);
+	setHeaders({
+		'Cache-Control': 'max-age=300',
+		Vary: 'Cookie'
+	});
 
-	const tracks = await selectAllTracksLimited(10);
-
-	return { tracks, recommendations };
+	return {
+		tracks: selectAllTracksLimited(10),
+		recommendations: selectAllUserRecommendedTracks(session.user.userId)
+	};
 }) satisfies PageServerLoad;
 
 export const actions = {
