@@ -6,6 +6,7 @@
 
 	export let trackId: string;
 	export let value: boolean = false;
+	export let showLikeButton: boolean = true;
 	export let previewUrl: string | null | undefined = undefined;
 </script>
 
@@ -14,7 +15,10 @@
 		<PreviewButton variant="icon" src={previewUrl} />
 	{/if}
 
-	<FormLikeButton {trackId} {value} />
+	{#if showLikeButton}
+		<FormLikeButton {trackId} {value} />
+	{/if}
+
 	<Button variant="ghost" size="icon" href={`/track/${trackId}`}>
 		<ArrowUpRightFromCircle />
 	</Button>

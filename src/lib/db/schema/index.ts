@@ -166,6 +166,8 @@ export const selectAlbumSchema = createSelectSchema(album);
 
 export const selectUserLikeSchema = createSelectSchema(userLikes);
 
+export const selectPlaylistSchema = createSelectSchema(playlist);
+
 // misc
 
 export type UserSchema = z.infer<typeof selectUserSchema>;

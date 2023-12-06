@@ -3,7 +3,8 @@ import type {
 	selectArtistSchema,
 	selectSongSchema,
 	selectUserLikeSchema,
-	selectUserSchema
+	selectUserSchema,
+	selectPlaylistSchema
 } from '$lib/db/schema';
 import type { z } from 'zod';
 
@@ -20,5 +21,9 @@ export type Song = z.infer<typeof selectSongSchema>;
 export type Album = z.infer<typeof selectAlbumSchema>;
 
 export type Track = { song: Song; artist: Artist; album: Album; user_likes?: UserLike | null };
+
+export type Playlist = z.infer<typeof selectPlaylistSchema>;
+
+export type PlaylistTrack = { song: Song; artist: Artist; album: Album; playlist: Playlist };
 
 export type Recommendation = { song: Song; artist: Artist; album: Album };

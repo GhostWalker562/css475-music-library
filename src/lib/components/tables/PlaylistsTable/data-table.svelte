@@ -1,61 +1,37 @@
 <script lang="ts">
 	import * as Table from '$lib/components/ui/table';
-	import type { Track } from '$lib/types/music';
+	import type { Playlist } from '$lib/types/music';
 	import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
-	import { addSelectedRows } from 'svelte-headless-table/plugins';
 	import { readable } from 'svelte/store';
 	import DataTableActions from './data-table-actions.svelte';
 	import DataTableName from './data-table-name.svelte';
 
-	export let data: Track[];
+	export let data: Playlist[];
 	export let showHeader = true;
-	export let showLikeButton = true;
 
-	const table = createTable(readable(data), {
-		select: addSelectedRows({
-			initialSelectedDataIds: data.reduce((acc, e, i) => ({ ...acc, [i]: !!e.user_likes }), {})
-		})
-	});
+	const table = createTable(readable(data));
 
 	const columns = table.createColumns([
 		table.column({
-			accessor: (e) => e.song.id,
+			accessor: (e) => e.id,
 			header: '#',
 			cell: ({ row }) => Number(row.id) + 1
 		}),
 		table.column({
 			id: 'name',
 			header: 'Title',
-			accessor: (e) => ({
-				name: e.song.name,
-				imageUrl: e.album.coverImageUrl,
-				previewUrl: e.song.previewUrl,
-				trackId: e.song.id
-			}),
+			accessor: (e) => ({ name: e.name, playlistId: e.id }),
 			cell: ({ value }) =>
 				createRender(DataTableName, {
-					imageUrl: value.imageUrl,
 					name: value.name,
-					previewUrl: value.previewUrl,
-					trackId: value.trackId
+					playlistId: value.playlistId
 				})
 		}),
-		table.column({ id: 'hidden', accessor: (e) => e.album.name, header: 'Album' }),
 		table.column({
 			id: 'actions',
-			accessor: (e) => ({
-				trackId: e.song.id,
-				isLiked: !!e.user_likes,
-				previewUrl: e.song.previewUrl
-			}),
+			accessor: (e) => ({ playlistId: e.id }),
 			header: '',
-			cell: ({ value }) =>
-				createRender(DataTableActions, {
-					trackId: value.trackId,
-					value: value.isLiked,
-					previewUrl: value.previewUrl,
-					showLikeButton
-				})
+			cell: ({ value }) => createRender(DataTableActions, { playlistId: value.playlistId })
 		})
 	]);
 
@@ -71,8 +47,8 @@
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()}>
-									{#if cell.id === 'hidden'}
-										<Table.Head {...attrs} class="hidden md:table-cell">
+									{#if cell.id === 'name'}
+										<Table.Head {...attrs} class="w-full">
 											<Render of={cell.render()} />
 										</Table.Head>
 									{:else}
@@ -94,8 +70,8 @@
 					<Table.Row {...rowAttrs}>
 						{#each row.cells as cell (cell.id)}
 							<Subscribe attrs={cell.attrs()} let:attrs>
-								{#if cell.id === 'hidden'}
-									<Table.Cell {...attrs} class="hidden md:table-cell">
+								{#if cell.id === 'name'}
+									<Table.Cell {...attrs} class="w-full">
 										<Render of={cell.render()} />
 									</Table.Cell>
 								{:else}
