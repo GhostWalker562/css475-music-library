@@ -2,7 +2,7 @@
 	import ArtistItem from '$lib/components/ArtistItem.svelte';
 	import DebouncedSearch from '$lib/components/DebouncedSearch.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import SkeletonTrackItem from '$lib/components/SkeletonTrackItem.svelte';
+	import SkeletonMediaItem from '$lib/components/SkeletonMediaItem.svelte';
 	import { Input } from '$lib/components/ui/input';
 	import { fetchArtists, getFetchArtistsQueryKey } from '$lib/queries/fetchArtists';
 	import { infiniteScroll } from '$lib/utils/infiniteScroll';
@@ -43,7 +43,7 @@
 		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
 	>
 		{#each new Array(15) as _}
-			<SkeletonTrackItem />
+			<SkeletonMediaItem />
 		{/each}
 	</div>
 {:else if flatArtists.length === 0}

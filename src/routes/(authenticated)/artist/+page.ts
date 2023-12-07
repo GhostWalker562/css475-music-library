@@ -11,7 +11,7 @@ const searchParamsSchema = z.object({
 	search: z.string().optional()
 });
 
-export const load = (async ({ parent, fetch, url, setHeaders }) => {
+export const load = (async ({ parent, fetch, url }) => {
 	const { queryClient } = await parent();
 
 	const searchParams = searchParamsSchema.parse(Object.fromEntries(url.searchParams.entries()));
@@ -25,8 +25,6 @@ export const load = (async ({ parent, fetch, url, setHeaders }) => {
 		pages: 1,
 		staleTime: 60 * 1000 * 3 // 3 minutes
 	});
-
-	setHeaders({ 'Cache-Control': 'public, max-age=180' });
 
 	return {};
 }) satisfies PageLoad;

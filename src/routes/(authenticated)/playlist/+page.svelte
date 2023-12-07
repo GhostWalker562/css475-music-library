@@ -6,6 +6,8 @@
 	export let data: PageData;
 </script>
 
-<SectionHeader title="Your Playlists" subtitle="Manage your playlists" />
+<div class="px-2 min-h-screen pb-24">
+	<SectionHeader title="Your Playlists" subtitle="Manage your playlists" />
 
-<PlaylistsTable data={data.playlists} />
+	<PlaylistsTable data={data.playlists} />
+</div>

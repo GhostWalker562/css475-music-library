@@ -6,4 +6,6 @@
 	const user = data.user;
 </script>
 
-<SectionHeader title="Discover Album" subtitle="Find trending albums" />
+<div class="px-2">
+	<SectionHeader title="Discover Album" subtitle="Find trending albums" />
+</div>

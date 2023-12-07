@@ -20,6 +20,8 @@ export type Song = z.infer<typeof selectSongSchema>;
 
 export type Album = z.infer<typeof selectAlbumSchema>;
 
+export type AlbumArtist = { album: Album; artist: Artist };
+
 export type Track = { song: Song; artist: Artist; album: Album; user_likes?: UserLike | null };
 
 export type Playlist = z.infer<typeof selectPlaylistSchema>;

@@ -8,7 +8,7 @@
 	import { createInfiniteQuery } from '@tanstack/svelte-query';
 	import { Music } from 'lucide-svelte';
 	import type { TracksResponse } from '../../api/tracks/+server';
-	import SkeletonTrackItem from '$lib/components/SkeletonTrackItem.svelte';
+	import SkeletonMediaItem from '$lib/components/SkeletonMediaItem.svelte';
 
 	let search: (e: InputEvent) => void | undefined;
 	let query: string | undefined;
@@ -43,7 +43,7 @@
 		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
 	>
 		{#each new Array(15) as _}
-			<SkeletonTrackItem />
+			<SkeletonMediaItem />
 		{/each}
 	</div>
 {:else if flatTracks.length === 0}
@@ -57,7 +57,7 @@
 		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 pb-12"
 	>
 		{#each flatTracks as track}
-			<TrackItem {track} />
+			<TrackItem item={track} />
 		{/each}
 		<div
 			use:infiniteScroll={{
