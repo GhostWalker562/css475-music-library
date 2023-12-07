@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import { selectUserLikedTracks } from '../../../../scripts/queries/selectUserLikedTracks';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
@@ -6,5 +7,5 @@ export const load = (async ({ locals }) => {
 
 	if (!session) throw redirect(303, '/login');
 
-	return {  };
+	return { likedTracks: selectUserLikedTracks(session.user.userId) };
 }) satisfies PageServerLoad;

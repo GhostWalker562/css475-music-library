@@ -12,6 +12,7 @@
 	export let data: PageData;
 </script>
 
+<!-- Banner -->
 <div class="mx-2 border rounded-md relative overflow-hidden -z-50">
 	<Shape1 class="absolute top-[10%] left-[10%] md:left-36 w-24 h-24 md:w-32 md:h-32 -z-20" />
 	<Shape2
@@ -25,6 +26,7 @@
 		<div class="ml-8 opacity-70 tracking-wide mt-2 hidden md:block">Your Minimal Music Library</div>
 	</div>
 </div>
+
 <br />
 
 <!-- Discover -->
