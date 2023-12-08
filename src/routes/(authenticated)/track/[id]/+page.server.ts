@@ -20,8 +20,7 @@ export const load = (async ({ locals, params }) => {
 	]);
 
 	const albumId = track.album.id;
-	let albumTracks = await selectAlbumTracks(albumId);
-	albumTracks = albumTracks.filter(albumTrack => albumTrack.song.id !== track.song.id);
+	const albumTracks = (await selectAlbumTracks(albumId)).filter(albumTrack => albumTrack.song.id !== track.song.id);
 
 	if (!track) throw redirect(303, '/');
 

@@ -15,8 +15,3 @@ db
     .innerJoin(album, eq(album.id, albumSongs.albumId))
     .innerJoin(song, eq(song.id, albumSongs.songId))
     .innerJoin(artist, eq(artist.id, song.artistId));
-    // .orderBy(albumSongs.order, 'ASC');
-		// .innerJoin(artist, eq(artist.id, song.artistId))
-		// .innerJoin(albumSongs, eq(albumSongs.songId, song.id))
-		// .innerJoin(album, eq(album.id, albumSongs.albumId))
-    // .where(eq(album.id, albumId));
