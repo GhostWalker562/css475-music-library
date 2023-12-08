@@ -125,7 +125,7 @@
 												<form
 													use:enhance={() => enhancePlaylistModification(ids.trigger)}
 													method="POST"
-													action={`/playlist/${playlist.id}?/modifyPlaylist`}
+													action={`/playlist/${playlist.id}?/modifyPlaylistSongs`}
 													class="w-full"
 												>
 													<input type="hidden" name="songId" id="songId" value={trackId} />

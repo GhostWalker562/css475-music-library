@@ -28,7 +28,7 @@ export const load = (async ({ locals, params }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	modifyPlaylist: async ({ locals, params, request }) => {
+	modifyPlaylistSongs: async ({ locals, params, request }) => {
 		if (!params.id) return fail(404);
 
 		const session = await locals.auth.validate();

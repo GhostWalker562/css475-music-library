@@ -27,7 +27,7 @@
 <DebouncedSearch bind:search bind:query defaultRoute="/artist" />
 
 <div class="px-2">
-	<SectionHeader title="Discover Artists" subtitle="Find trending artists">
+	<SectionHeader title="Explore Artists" subtitle="Find trending artists">
 		<Input
 			on:input={(e) => search?.(e)}
 			type="search"

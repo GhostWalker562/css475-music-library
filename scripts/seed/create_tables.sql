@@ -156,3 +156,5 @@ CREATE TABLE "user_song_recommendations" (
 CREATE INDEX idx_song_name_fulltext ON "song" USING GIN (to_tsvector('simple', "name"));
 
 CREATE INDEX idx_artist_name_fulltext ON "artist" USING GIN (to_tsvector('simple', "name"));
+
+CREATE INDEX idx_album_name_fulltext ON "album" USING GIN (to_tsvector('simple', "name"));
