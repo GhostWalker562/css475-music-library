@@ -5,6 +5,9 @@
 
 	export let trackId: string;
 	export let userId: string;
+	export let albumId: string | undefined = undefined;
+	export let artistId: string | undefined = undefined;
+
 	export let value: boolean = false;
 	export let showLikeButton: boolean = true;
 	export let previewUrl: string | null | undefined = undefined;
@@ -19,5 +22,5 @@
 		<FormLikeButton {trackId} {value} />
 	{/if}
 
-	<TrackDropdown {trackId} {userId} />
+	<TrackDropdown {trackId} {userId} {artistId} {albumId} />
 </div>

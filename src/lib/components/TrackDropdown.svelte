@@ -1,18 +1,20 @@
 <script lang="ts">
-	import { Copy, MoreHorizontal, Music, Tags, Check } from 'lucide-svelte';
+	import { applyAction, enhance } from '$app/forms';
+	import { Button } from '$lib/components/ui/button';
 	import * as Command from '$lib/components/ui/command';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Button } from '$lib/components/ui/button';
-	import { tick } from 'svelte';
-	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
-	import type { PlaylistsResponse } from '../../routes/api/playlists/+server';
-	import { applyAction, enhance } from '$app/forms';
 	import type { ActionResult } from '@sveltejs/kit';
+	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
+	import { Album, Check, Copy, MoreHorizontal, Music, Tags, User } from 'lucide-svelte';
+	import { tick } from 'svelte';
+	import type { PlaylistsResponse } from '../../routes/api/playlists/+server';
 
 	// State
 
 	export let userId: string;
 	export let trackId: string;
+	export let albumId: string | undefined = undefined;
+	export let artistId: string | undefined = undefined;
 	export let showGoToSong = true;
 	export let showAddToPlaylist = true;
 
@@ -78,6 +80,21 @@
 					<Music class="mr-2 h-4 w-4" />
 					Go to Song
 				</DropdownMenu.Item>
+			{/if}
+			{#if albumId}
+				<DropdownMenu.Item href={`/album/${albumId}`}>
+					<Album class="mr-2 h-4 w-4" />
+					Go to Album
+				</DropdownMenu.Item>
+			{/if}
+			{#if artistId}
+				<DropdownMenu.Item href={`/artist/${artistId}`}>
+					<User class="mr-2 h-4 w-4" />
+					Go to Artist
+				</DropdownMenu.Item>
+			{/if}
+			{#if albumId || artistId || showGoToSong}
+				<DropdownMenu.Separator />
 			{/if}
 			<DropdownMenu.Item on:click={onCopy}>
 				<Copy class="mr-2 h-4 w-4" />

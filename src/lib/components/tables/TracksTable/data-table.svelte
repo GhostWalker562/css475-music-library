@@ -9,6 +9,10 @@
 
 	export let data: Track[];
 	export let userId: string;
+
+	export let showGoToArtist = true;
+	export let showGoToAlbum = true;
+
 	export let showHeader = true;
 	export let showLikeButton = true;
 
@@ -46,6 +50,8 @@
 			id: 'actions',
 			accessor: (e) => ({
 				trackId: e.song.id,
+				albumId: e.album.id,
+				artistId: e.artist.id,
 				isLiked: !!e.user_likes,
 				previewUrl: e.song.previewUrl
 			}),
@@ -53,6 +59,8 @@
 			cell: ({ value }) =>
 				createRender(DataTableActions, {
 					trackId: value.trackId,
+					albumId: showGoToAlbum ? value.albumId : undefined,
+					artistId: showGoToArtist ? value.artistId : undefined,
 					userId,
 					value: value.isLiked,
 					previewUrl: value.previewUrl,
