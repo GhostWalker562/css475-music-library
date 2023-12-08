@@ -11,6 +11,7 @@
 		{#if subtitle}
 			<p class="text-sm text-muted-foreground">{subtitle}</p>
 		{/if}
+		<slot name="subtitle" />
 	</div>
 	<slot />
 </div>

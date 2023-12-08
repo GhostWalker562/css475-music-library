@@ -7,6 +7,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import type { ActionResult } from '@sveltejs/kit';
 	import BackButton from '$lib/components/BackButton.svelte';
+	import TrackDropdown from '$lib/components/TrackDropdown.svelte';
 
 	export let data: PageData;
 
@@ -33,6 +34,7 @@
 
 	<SectionHeader title={data.track.song.name} subtitle={data.track.artist.name}>
 		<div class="flex justify-end flex-row-reverse sm:flex-row items-center mt-2 sm:mt-0 gap-4">
+			<TrackDropdown userId={data.user.userId} trackId={data.track.song.id} showGoToSong={false} />
 			<form use:enhance={enhanceLikeForm} action="?/toggleLike" method="post">
 				<LikeButton type="submit" value={isLiked} />
 			</form>

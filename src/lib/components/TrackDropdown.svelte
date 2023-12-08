@@ -13,6 +13,8 @@
 
 	export let userId: string;
 	export let trackId: string;
+	export let showGoToSong = true;
+	export let showAddToPlaylist = true;
 
 	let open = false;
 
@@ -71,62 +73,67 @@
 	<DropdownMenu.Content class="w-[200px]">
 		<DropdownMenu.Group>
 			<DropdownMenu.Label>Actions</DropdownMenu.Label>
-			<DropdownMenu.Item href={`/track/${trackId}`}>
-				<Music class="mr-2 h-4 w-4" />
-				Go to Song
-			</DropdownMenu.Item>
+			{#if showGoToSong}
+				<DropdownMenu.Item href={`/track/${trackId}`}>
+					<Music class="mr-2 h-4 w-4" />
+					Go to Song
+				</DropdownMenu.Item>
+			{/if}
 			<DropdownMenu.Item on:click={onCopy}>
 				<Copy class="mr-2 h-4 w-4" />
 				Copy Link
 			</DropdownMenu.Item>
-			<DropdownMenu.Separator />
-			<DropdownMenu.Sub>
-				<DropdownMenu.SubTrigger>
-					<Tags class="mr-2 h-4 w-4" />
-					Add to Playlist
-				</DropdownMenu.SubTrigger>
-				<DropdownMenu.SubContent class="p-0">
-					<Command.Root value="">
-						<Command.Input autofocus placeholder="Filter playlist..." />
-						<Command.List>
-							<Command.Empty>No label found.</Command.Empty>
-							<Command.Group>
-								{#if $playlists.isLoading}
-									<Command.Item>Loading...</Command.Item>
-								{:else if $playlists.isError}
-									<Command.Item>Error loading playlists.</Command.Item>
-								{:else if $playlists.isSuccess && $playlists.data?.playlists.length === 0}
-									<Command.Item>No playlists found.</Command.Item>
-								{:else if $playlists.isSuccess && $playlists.data?.playlists.length > 0}
-									{#each $playlists.data.playlists as playlist}
-										<form
-											use:enhance={() => enhancePlaylistModification(ids.trigger)}
-											method="POST"
-											action={`/playlist/${playlist.id}?/modifyPlaylist`}
-										>
-											<input type="hidden" name="songId" id="songId" value={trackId} />
-											<input
-												type="hidden"
-												name="method"
-												id="method"
-												value={hasSongInPlaylist(playlist.id) ? 'REMOVE' : 'ADD'}
-											/>
-											<button type="submit" class="w-full">
-												<Command.Item value={playlist.name} class="pointer-events-none">
-													{playlist.name}
-													{#if hasSongInPlaylist(playlist.id)}
-														<Check class="ml-2 h-4 w-4" />
-													{/if}
-												</Command.Item>
-											</button>
-										</form>
-									{/each}
-								{/if}
-							</Command.Group>
-						</Command.List>
-					</Command.Root>
-				</DropdownMenu.SubContent>
-			</DropdownMenu.Sub>
+			{#if showAddToPlaylist}
+				<DropdownMenu.Separator />
+				<DropdownMenu.Sub>
+					<DropdownMenu.SubTrigger>
+						<Tags class="mr-2 h-4 w-4" />
+						Add to Playlist
+					</DropdownMenu.SubTrigger>
+					<DropdownMenu.SubContent class="p-0">
+						<Command.Root value="">
+							<Command.Input autofocus placeholder="Filter playlist..." />
+							<Command.List>
+								<Command.Empty>No label found.</Command.Empty>
+								<Command.Group>
+									{#if $playlists.isLoading}
+										<Command.Item>Loading...</Command.Item>
+									{:else if $playlists.isError}
+										<Command.Item>Error loading playlists.</Command.Item>
+									{:else if $playlists.isSuccess && $playlists.data?.playlists.length === 0}
+										<Command.Item>No playlists found.</Command.Item>
+									{:else if $playlists.isSuccess && $playlists.data?.playlists.length > 0}
+										{#each $playlists.data.playlists as playlist}
+											<Command.Item value={playlist.name} class="p-0">
+												<form
+													use:enhance={() => enhancePlaylistModification(ids.trigger)}
+													method="POST"
+													action={`/playlist/${playlist.id}?/modifyPlaylist`}
+													class="w-full"
+												>
+													<input type="hidden" name="songId" id="songId" value={trackId} />
+													<input
+														type="hidden"
+														name="method"
+														id="method"
+														value={hasSongInPlaylist(playlist.id) ? 'REMOVE' : 'ADD'}
+													/>
+													<button type="submit" class="w-full flex items-center px-2 py-1.5">
+														{playlist.name}
+														{#if hasSongInPlaylist(playlist.id)}
+															<Check class="ml-2 h-4 w-4" />
+														{/if}
+													</button>
+												</form>
+											</Command.Item>
+										{/each}
+									{/if}
+								</Command.Group>
+							</Command.List>
+						</Command.Root>
+					</DropdownMenu.SubContent>
+				</DropdownMenu.Sub>
+			{/if}
 		</DropdownMenu.Group>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
