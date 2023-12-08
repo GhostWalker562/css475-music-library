@@ -1,18 +1,18 @@
 <script lang="ts">
-	import * as Select from '$lib/components/ui/select';
-	import type { ActionData, PageData } from './$types';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import { setMode, mode, resetMode } from 'mode-watcher';
-	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import UploadButton from '$lib/components/UploadButton.svelte';
-	import * as Avatar from '$lib/components/ui/avatar';
-	import { mapModeToValue } from '$lib/utils/theme';
-	import type { UploadInfo } from '$lib/types/cloudinary';
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
+	import AccountImage from '$lib/components/AccountImage.svelte';
+	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import UploadButton from '$lib/components/UploadButton.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import * as Select from '$lib/components/ui/select';
+	import type { UploadInfo } from '$lib/types/cloudinary';
+	import { mapModeToValue } from '$lib/utils/theme';
 	import { transformCloudinaryURL } from '$lib/utils/transformCloudinaryUrl';
+	import { mode, resetMode, setMode } from 'mode-watcher';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
 	const user = data.user;
@@ -67,15 +67,7 @@
 				<Label for="avatar" class="block">Profile Picture</Label>
 				<input type="hidden" bind:value={profileImageUrl} name="avatar" id="avatar" />
 				<UploadButton on:upload={handleOnUpload}>
-					<Avatar.Root class="w-36 h-36 border">
-						<Avatar.Image src={profileImageUrl} alt={user.username} class="object-cover" />
-						<Avatar.Fallback>
-							<img
-								src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.username}`}
-								alt={user.username}
-							/>
-						</Avatar.Fallback>
-					</Avatar.Root>
+					<AccountImage src={profileImageUrl} alt={user.username} class="w-36 h-36 border" />
 				</UploadButton>
 			</div>
 

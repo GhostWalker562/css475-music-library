@@ -41,12 +41,18 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
+  cmdk-sv:
+    specifier: ^0.0.12
+    version: 0.0.12(svelte@4.2.7)
   drizzle-orm:
     specifier: ^0.29.0
     version: 0.29.0(@types/pg@8.10.9)(@vercel/postgres@0.5.1)(pg@8.11.3)
   drizzle-zod:
     specifier: ^0.5.1
     version: 0.5.1(drizzle-orm@0.29.0)(zod@3.22.4)
+  formsnap:
+    specifier: ^0.4.1
+    version: 0.4.1(svelte@4.2.7)(sveltekit-superforms@1.10.2)(zod@3.22.4)
   fuse.js:
     specifier: ^7.0.0
     version: 7.0.0
@@ -1386,6 +1392,16 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /cmdk-sv@0.0.12(svelte@4.2.7):
+    resolution: {integrity: sha512-d+eILSOb2W+/3U/j7xGTgGRrZkFB/z4Xlvj0ADrWhf34y9YLzJon3JCGP2hMil5IrVm0P/+IFIeCF5l3//kcjA==}
+    peerDependencies:
+      svelte: ^4.0.0
+    dependencies:
+      bits-ui: 0.9.8(svelte@4.2.7)
+      nanoid: 5.0.3
+      svelte: 4.2.7
+    dev: false
+
   /code-red@1.0.4:
     resolution: {integrity: sha512-7qJWqItLA8/VPVlKJlFXU+NBlo/qyfs39aJcuMT/2ere32ZqvF5OSxgdM5xOfJJ7O429gg2HM47y8v9P+9wrNw==}
     dependencies:
@@ -2019,6 +2035,18 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+    dev: false
+
+  /formsnap@0.4.1(svelte@4.2.7)(sveltekit-superforms@1.10.2)(zod@3.22.4):
+    resolution: {integrity: sha512-hUOaDKb+KoBi4PamJRnxRqIQW3msp2BKPqohoqjHUuBb+vgBrhoaz0WYEFkXG4bzVQS3JngG55m/zX5ciZTyeA==}
+    peerDependencies:
+      svelte: ^4.0.0
+      sveltekit-superforms: ^1.7.1
+      zod: ^3.22.2
+    dependencies:
+      svelte: 4.2.7
+      sveltekit-superforms: 1.10.2(@sveltejs/kit@1.27.6)(svelte@4.2.7)(zod@3.22.4)
+      zod: 3.22.4
     dev: false
 
   /fraction.js@4.3.7:

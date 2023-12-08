@@ -14,6 +14,7 @@ interface Song {
 	spotify_track_id: string;
 	spotify_preview_url: string;
 	spotify_album_cover_url: string;
+	spotify_album_name: string;
 	spotify_artist_image_url: string;
 }
 
@@ -49,6 +50,7 @@ const headers = [
 	'spotify_track_id',
 	'spotify_preview_url',
 	'spotify_album_cover_url',
+	'spotify_album_name',
 	'spotify_artist_image_url'
 ];
 
@@ -108,7 +110,11 @@ async function main(songs: Song[]) {
 
 		// Generate insert statements for artist album
 		const albumId = generateRandomString(50);
-		const albumName = `${artist} Album`;
+		const spotifyAlbumName = artistSongs
+			.find((e) => !!e.spotify_album_name)
+			?.spotify_album_name?.replaceAll("'", '');
+		const albumName =
+			spotifyAlbumName && spotifyAlbumName !== 'null' ? spotifyAlbumName : `${artist} Album`;
 		const insertAlbumQuery = `INSERT INTO "album" ("id", "artist_id", "cover_image_url", "name", "created_at") VALUES ('${albumId}','${artistId}', ${
 			artistSongs[0].spotify_album_cover_url
 				? `'${artistSongs[0].spotify_album_cover_url}'`
@@ -122,9 +128,7 @@ async function main(songs: Song[]) {
 			const song = artistSongs[j];
 			const insertSongQuery = `INSERT INTO "song" ("id", "name", "artist_id", "genre", "spotify_id", "preview_url", "created_at") VALUES ('${songId}','${sanitizeSongName(
 				song.track_name
-			)}','${artistId}','POP',${
-				song.spotify_track_id ? `'${song.spotify_track_id}'` : 'NULL'
-			},${
+			)}','${artistId}','POP',${song.spotify_track_id ? `'${song.spotify_track_id}'` : 'NULL'},${
 				song.spotify_preview_url ? `'${song.spotify_preview_url}'` : 'NULL'
 			},'2023-11-17 17:00:08.000');\n`;
 			const inserAlbumSongQuery = `INSERT INTO "album_songs"("album_id", "song_id", "order") VALUES ('${albumId}', '${songId}', '${j}');\n`;

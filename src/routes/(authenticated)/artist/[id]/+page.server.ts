@@ -9,7 +9,7 @@ export const load = (async ({ locals, params }) => {
 	if (!session) throw redirect(303, '/login');
 
 	const [artist, tracks] = await Promise.all([
-		(await selectArtist(params.id)).at(0),
+		(async () => (await selectArtist(params.id)).at(0))(),
 		selectArtistTracksWithUserLikes(session.user.userId, params.id)
 	]);
 

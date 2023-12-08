@@ -26,6 +26,6 @@ export type Track = { song: Song; artist: Artist; album: Album; user_likes?: Use
 
 export type Playlist = z.infer<typeof selectPlaylistSchema>;
 
-export type PlaylistTrack = { song: Song; artist: Artist; album: Album; playlist: Playlist };
+export type PlaylistTrack = Track & { playlist: Playlist };
 
 export type Recommendation = { song: Song; artist: Artist; album: Album };

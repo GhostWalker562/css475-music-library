@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import * as Menubar from '$lib/components/ui/menubar';
-	import * as Avatar from '$lib/components/ui/avatar';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import type { User } from 'lucia';
 	import { Button } from './ui/button';
@@ -10,6 +9,7 @@
 	import { page } from '$app/stores';
 	import ThemeSwitch from './ThemeSwitch.svelte';
 	import Logo from './Logo.svelte';
+	import AccountImage from './AccountImage.svelte';
 
 	export let user: User;
 
@@ -38,17 +38,9 @@
 					<ThemeSwitch />
 				</div>
 				<!-- User -->
-				<Menubar.Trigger class="cursor-pointer flex gap-2">
+				<Menubar.Trigger class="cursor-pointer flex gap-2 items-center">
 					{user.username}
-					<Avatar.Root class="w-6 h-6 border ">
-						<Avatar.Image src={user.profileImageUrl} alt={user.username} class="object-cover" />
-						<Avatar.Fallback>
-							<img
-								src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.username}`}
-								alt={user.username}
-							/>
-						</Avatar.Fallback>
-					</Avatar.Root>
+					<AccountImage src={user.profileImageUrl} alt={user.username} />
 				</Menubar.Trigger>
 				<!-- Collapsible -->
 				<Sheet.Root>

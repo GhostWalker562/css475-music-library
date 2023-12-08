@@ -62,12 +62,13 @@ async function searchTrack(token: string, trackName: string, artistName: string)
 			const trackId = items[0].id;
 			const previewUrl = items[0].preview_url;
 			const albumCoverUrl = items[0].album.images[0].url;
-			return { trackId, previewUrl, albumCoverUrl };
+			const albumName = items[0].album.name;
+			return { trackId, previewUrl, albumCoverUrl, albumName };
 		}
 	} catch (error) {
 		console.error('Error searching track:', error);
 	}
-	return { trackId: null, previewUrl: null, albumCoverUrl: null };
+	return { trackId: null, previewUrl: null, albumCoverUrl: null, albumName: null };
 }
 
 async function updateDataset() {
@@ -76,7 +77,7 @@ async function updateDataset() {
 	const records = parse(fileContent, { columns: true, delimiter: ',', skip_empty_lines: true });
 
 	for (const row of records) {
-		const { trackId, previewUrl, albumCoverUrl } = await searchTrack(
+		const { trackId, previewUrl, albumCoverUrl, albumName } = await searchTrack(
 			token,
 			row['track_name'],
 			row['artist(s)_name']
@@ -84,6 +85,7 @@ async function updateDataset() {
 		row['spotify_track_id'] = trackId;
 		row['spotify_preview_url'] = previewUrl;
 		row['spotify_album_cover_url'] = albumCoverUrl;
+		row['spotify_album_name'] = albumName;
 		row['spotify_artist_image_url'] = await getArtistImageURL(token, row['artist(s)_name']);
 	}
 
