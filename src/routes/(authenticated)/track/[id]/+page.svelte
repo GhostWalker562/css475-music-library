@@ -7,6 +7,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import type { ActionResult } from '@sveltejs/kit';
 	import BackButton from '$lib/components/BackButton.svelte';
+	import TracksTable from '$lib/components/tables/TracksTable';
 	import TrackDropdown from '$lib/components/TrackDropdown.svelte';
 
 	export let data: PageData;
@@ -51,4 +52,10 @@
 			<PreviewButton src={data.track.song.previewUrl} class={''} />
 		</div>
 	</SectionHeader>
+
+	<div class="px-2 min-h-screen pb-24">		
+		<TracksTable data={data.albumTracks} />
+	</div>
 </div>
+
+
