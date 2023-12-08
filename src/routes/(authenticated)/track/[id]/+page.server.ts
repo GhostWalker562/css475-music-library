@@ -5,7 +5,7 @@ import { selectIsTrackLiked } from '../../../../../scripts/queries/selectIsTrack
 import { toggleLike } from '../../../../../scripts/queries/toggleLike';
 import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
-import { selectAlbumTracks } from '../../../../../scripts/queries/selectAlbumTracks';
+import { selectAlbumTracksWithLikes } from '../../../../../scripts/queries/selectAlbumTracksWithLikes';
 
 const toggleLikeSchema = z.object({ isLiked: z.boolean() });
 
@@ -19,10 +19,12 @@ export const load = (async ({ locals, params }) => {
 		selectIsTrackLiked(session.user.userId, params.id)
 	]);
 
-	const albumId = track.album.id;
-	const albumTracks = (await selectAlbumTracks(albumId)).filter(albumTrack => albumTrack.song.id !== track.song.id);
-
 	if (!track) throw redirect(303, '/');
+
+	const albumId = track.album.id;
+	const albumTracks = (await selectAlbumTracksWithLikes(albumId, session.user.userId)).filter(
+		(albumTrack) => albumTrack.song.id !== track.song.id
+	);
 
 	return { track, isLiked, albumTracks };
 }) satisfies PageServerLoad;

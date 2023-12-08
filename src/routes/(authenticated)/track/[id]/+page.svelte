@@ -12,7 +12,7 @@
 
 	export let data: PageData;
 
-	let isLiked = data.isLiked;
+	$: isLiked = data.isLiked;
 
 	const enhanceLikeForm = () => {
 		isLiked = !isLiked;
@@ -22,7 +22,7 @@
 	};
 </script>
 
-<div class="px-2">
+<div class="px-2 min-h-screen pb-24">
 	<BackButton label="Browse" defaultRoute="/browse" />
 
 	<CoverImage
@@ -53,9 +53,7 @@
 		</div>
 	</SectionHeader>
 
-	<div class="px-2 min-h-screen pb-24">		
-		<TracksTable data={data.albumTracks} />
-	</div>
+	{#if data.albumTracks.length > 0}
+		<TracksTable data={data.albumTracks} userId={data.user.userId} showAlbum={false} />
+	{/if}
 </div>
-
-

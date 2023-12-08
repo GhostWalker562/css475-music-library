@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
 	import LikeButton from '$lib/components/LikeButton.svelte';
 	import type { ActionResult } from '@sveltejs/kit';
 
@@ -8,7 +9,10 @@
 
 	const enhanceLikeForm = () => {
 		value = !value;
-		return async ({ result }: { result: ActionResult }) => await applyAction(result);
+		return async ({ result }: { result: ActionResult }) => {
+			invalidateAll();
+			await applyAction(result);
+		};
 	};
 </script>
 

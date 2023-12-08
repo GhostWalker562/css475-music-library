@@ -3,7 +3,7 @@
 	import type { Track } from '$lib/types/music';
 	import { Render, Subscribe, createRender, createTable } from 'svelte-headless-table';
 	import { addSelectedRows } from 'svelte-headless-table/plugins';
-	import { readable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 	import DataTableActions from './data-table-actions.svelte';
 	import DataTableName from './data-table-name.svelte';
 
@@ -13,10 +13,15 @@
 	export let showGoToArtist = true;
 	export let showGoToAlbum = true;
 
+	export let showAlbum = true;
+
 	export let showHeader = true;
 	export let showLikeButton = true;
 
-	const table = createTable(readable(data), {
+	const tableData = writable(data);
+	$: tableData.set(data);
+
+	const table = createTable(tableData, {
 		select: addSelectedRows({
 			initialSelectedDataIds: data.reduce((acc, e, i) => ({ ...acc, [i]: !!e.user_likes }), {})
 		})
@@ -45,7 +50,7 @@
 					trackId: value.trackId
 				})
 		}),
-		table.column({ id: 'hidden', accessor: (e) => e.album.name, header: 'Album' }),
+		table.column({ id: 'album', accessor: (e) => e.album.name, header: 'Album' }),
 		table.column({
 			id: 'actions',
 			accessor: (e) => ({
@@ -81,8 +86,8 @@
 						<Table.Row>
 							{#each headerRow.cells as cell (cell.id)}
 								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()}>
-									{#if cell.id === 'hidden'}
-										<Table.Head {...attrs} class="hidden md:table-cell">
+									{#if cell.id === 'album'}
+										<Table.Head {...attrs} class={!showAlbum ? 'hidden' : 'hidden md:table-cell'}>
 											<Render of={cell.render()} />
 										</Table.Head>
 									{:else}
@@ -104,8 +109,8 @@
 					<Table.Row {...rowAttrs}>
 						{#each row.cells as cell (cell.id)}
 							<Subscribe attrs={cell.attrs()} let:attrs>
-								{#if cell.id === 'hidden'}
-									<Table.Cell {...attrs} class="hidden md:table-cell">
+								{#if cell.id === 'album'}
+									<Table.Cell {...attrs} class={!showAlbum ? 'hidden' : 'hidden md:table-cell'}>
 										<Render of={cell.render()} />
 									</Table.Cell>
 								{:else}
