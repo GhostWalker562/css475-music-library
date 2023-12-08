@@ -8,6 +8,7 @@
 	import DataTableName from './data-table-name.svelte';
 
 	export let data: Track[];
+	export let userId: string;
 	export let showHeader = true;
 	export let showLikeButton = true;
 
@@ -52,6 +53,7 @@
 			cell: ({ value }) =>
 				createRender(DataTableActions, {
 					trackId: value.trackId,
+					userId,
 					value: value.isLiked,
 					previewUrl: value.previewUrl,
 					showLikeButton

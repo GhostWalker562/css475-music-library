@@ -9,5 +9,5 @@
 <div class="px-2 min-h-screen pb-24">
 	<SectionHeader title={data.playlist.name} subtitle="Manage your playlists" />
 
-	<TracksTable data={data.tracks} />
+	<TracksTable data={data.tracks} userId={data.user.userId} />
 </div>

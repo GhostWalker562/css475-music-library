@@ -1,10 +1,10 @@
 <script lang="ts">
 	import FormLikeButton from '$lib/components/FormLikeButton.svelte';
 	import PreviewButton from '$lib/components/PreviewButton.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import { ArrowUpRightFromCircle } from 'lucide-svelte';
+	import TrackDropdown from '$lib/components/TrackDropdown.svelte';
 
 	export let trackId: string;
+	export let userId: string;
 	export let value: boolean = false;
 	export let showLikeButton: boolean = true;
 	export let previewUrl: string | null | undefined = undefined;
@@ -19,7 +19,5 @@
 		<FormLikeButton {trackId} {value} />
 	{/if}
 
-	<Button variant="ghost" size="icon" href={`/track/${trackId}`}>
-		<ArrowUpRightFromCircle />
-	</Button>
+	<TrackDropdown {trackId} {userId} />
 </div>

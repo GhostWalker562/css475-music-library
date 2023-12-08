@@ -9,5 +9,5 @@
 <div class="px-2 min-h-screen pb-24">
 	<SectionHeader title="Liked Songs" subtitle="View the songs you've liked" />
 
-	<TracksTable data={data.likedTracks} />
+	<TracksTable data={data.likedTracks} userId={data.user.userId} />
 </div>

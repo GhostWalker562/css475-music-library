@@ -20,5 +20,5 @@
 
 	<SectionHeader title={data.artist.artist.name} subtitle={data.artist.artist.bio} />
 
-	<TracksTable data={data.tracks} />
+	<TracksTable data={data.tracks} userId={data.user.userId} />
 </div>
