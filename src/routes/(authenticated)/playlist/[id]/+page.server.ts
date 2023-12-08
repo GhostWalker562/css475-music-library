@@ -18,7 +18,7 @@ export const load = (async ({ locals, params }) => {
 	if (!session) throw redirect(303, '/login');
 
 	const [playlistCreator, tracks] = await Promise.all([
-		(await selectPlaylistCreator(params.id)).at(0),
+		(async () => (await selectPlaylistCreator(params.id)).at(0))(),
 		selectPlaylistTracksWithUserLikes(session.user.userId, params.id)
 	]);
 
