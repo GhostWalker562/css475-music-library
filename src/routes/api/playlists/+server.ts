@@ -1,8 +1,8 @@
 import type { Playlist } from '$lib/types/music';
 import { z } from 'zod';
+import { selectPlaylistsWithTrack } from '../../../../scripts/queries/selectPlaylistsWithTrack';
 import { selectUserPlaylists } from '../../../../scripts/queries/selectUserPlaylists';
 import type { RequestHandler } from './$types';
-import { selectPlaylistsWithTrack } from '../../../../scripts/queries/selectPlaylistsWithTrack';
 
 const searchParamsSchema = z.object({
 	userId: z.string().optional(),

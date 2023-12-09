@@ -1,5 +1,4 @@
 <script lang="ts">
-	import PreviewButton from '$lib/components/PreviewButton.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { ArrowUpRightFromCircle } from 'lucide-svelte';
 

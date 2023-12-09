@@ -1,30 +1,19 @@
-import { fail, redirect, type Actions } from '@sveltejs/kit';
+import { fail, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
 import { modifyPlaylistSong } from '../../../../../scripts/queries/modifyPlaylistSong';
 import { selectPlaylist } from '../../../../../scripts/queries/selectPlaylist';
-import { selectPlaylistCreator } from '../../../../../scripts/queries/selectPlaylistCreator';
-import { selectPlaylistTracksWithUserLikes } from '../../../../../scripts/queries/selectPlaylistTracksWithUserLikes';
 import type { PageServerLoad } from './$types';
 
-const modifyPlaylistSchema = z.object({
+const modifyPlaylistSongSchema = z.object({
 	songId: z.string(),
 	method: z.enum(['ADD', 'REMOVE'])
 });
 
-export const load = (async ({ locals, params }) => {
-	const session = await locals.auth.validate();
+export const load = (async ({ parent }) => {
+	const data = await parent();
 
-	if (!session) throw redirect(303, '/login');
-
-	const [playlistCreator, tracks] = await Promise.all([
-		(async () => (await selectPlaylistCreator(params.id)).at(0))(),
-		selectPlaylistTracksWithUserLikes(session.user.userId, params.id)
-	]);
-
-	if (!playlistCreator) throw redirect(303, '/');
-
-	return { playlist: playlistCreator.playlist, creator: playlistCreator.auth_user, tracks };
+	return data;
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -32,7 +21,7 @@ export const actions = {
 		if (!params.id) return fail(404);
 
 		const session = await locals.auth.validate();
-		const form = await superValidate(request, modifyPlaylistSchema);
+		const form = await superValidate(request, modifyPlaylistSongSchema);
 
 		if (!form.valid) return fail(400, { form });
 

@@ -108,7 +108,7 @@
 						Add to Playlist
 					</DropdownMenu.SubTrigger>
 					<DropdownMenu.SubContent class="p-0">
-						<Command.Root value="">
+						<Command.Root>
 							<Command.Input autofocus placeholder="Filter playlist..." />
 							<Command.List>
 								<Command.Empty>No label found.</Command.Empty>
@@ -121,7 +121,7 @@
 										<Command.Item>No playlists found.</Command.Item>
 									{:else if $playlists.isSuccess && $playlists.data?.playlists.length > 0}
 										{#each $playlists.data.playlists as playlist}
-											<Command.Item value={playlist.name} class="p-0">
+											<Command.Item value={playlist.id} class="p-0">
 												<form
 													use:enhance={() => enhancePlaylistModification(ids.trigger)}
 													method="POST"

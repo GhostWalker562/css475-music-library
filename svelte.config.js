@@ -14,6 +14,9 @@ const config = {
 		adapter: adapter(),
 		typescript: {
 			config: (config) => ({ ...config, include: [...config.include, '../scripts', '../drizzle'] })
+		},
+		alias: {
+			$ui: 'src/lib/components/ui'
 		}
 	}
 };
