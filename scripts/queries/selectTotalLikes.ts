@@ -1,18 +1,17 @@
 import { db } from '$lib/db';
-import { song, userLikes, artist } from '$lib/db/schema';
+import { song, userLikes } from '$lib/db/schema';
 import { eq, sql } from 'drizzle-orm';
 
 export const selectTotalLikes = async (artistId: string) => {
-	const result = await db
-		.select({ count: sql<number>`COUNT(*)` })
-		.from(userLikes)
-		.innerJoin(song, eq(song.id, userLikes.songId))
-		.innerJoin(artist, eq(artist.id, song.artistId))
-		.where(eq(artist.id, artistId))
-		.groupBy(artist.id);
+  const nestedQuery = await db
+  .select({likesSongId: userLikes.songId})
+  .from(userLikes)
+  .innerJoin(song, eq(song.id, userLikes.songId))
+  .where(eq(song.artistId, artistId))
+  .as('nestedQuery');
 
-	// Assuming the result is an array with one object
-  // Return the count, or 0 if there's no result
+  const result = await db
+  .select({ count: sql<number>`COUNT(*)` })
+  .from(nestedQuery)
 	return result[0]?.count ?? 0; 
 };
-
