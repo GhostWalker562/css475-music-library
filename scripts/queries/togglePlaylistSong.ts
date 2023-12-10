@@ -2,7 +2,7 @@ import { db } from '$lib/db';
 import { playlistSongs } from '$lib/db/schema';
 import { and, eq, sql } from 'drizzle-orm';
 
-export const modifyPlaylistSong = (playlistId: string, songId: string, method: 'ADD' | 'REMOVE') =>
+export const togglePlaylistSong = (playlistId: string, songId: string, method: 'ADD' | 'REMOVE') =>
 	db.transaction(async (tx) => {
 		const [playlistSongExists, latestOrder] = await Promise.all([
 			(async () =>

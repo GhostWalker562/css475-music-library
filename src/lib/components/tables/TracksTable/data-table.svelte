@@ -7,6 +7,8 @@
 	import DataTableActions from './data-table-actions.svelte';
 	import DataTableAlbum from './data-table-album.svelte';
 	import DataTableName from './data-table-name.svelte';
+	import type { SuperValidated } from 'sveltekit-superforms';
+	import type { UpdateSongSchema } from '$lib/types/song';
 
 	export let data: Track[];
 	export let userId: string;
@@ -15,9 +17,10 @@
 	export let showGoToAlbum = true;
 
 	export let showAlbum = true;
-
 	export let showHeader = true;
 	export let showLikeButton = true;
+
+	export let updateSongForms: SuperValidated<UpdateSongSchema>[] | undefined = undefined;
 
 	const tableData = writable(data);
 	$: tableData.set(data);
@@ -68,18 +71,20 @@
 				albumId: e.album.id,
 				artistId: e.artist.id,
 				isLiked: !!e.user_likes,
-				previewUrl: e.song.previewUrl
+				previewUrl: e.song.previewUrl,
+				track: e
 			}),
 			header: '',
 			cell: ({ value }) =>
 				createRender(DataTableActions, {
-					trackId: value.trackId,
 					albumId: showGoToAlbum ? value.albumId : undefined,
 					artistId: showGoToArtist ? value.artistId : undefined,
 					userId,
 					value: value.isLiked,
 					previewUrl: value.previewUrl,
-					showLikeButton
+					showLikeButton,
+					track: value.track,
+					updateSongForms
 				})
 		})
 	]);

@@ -29,3 +29,5 @@ export type Playlist = z.infer<typeof selectPlaylistSchema>;
 export type PlaylistTrack = Track & { playlist: Playlist };
 
 export type Recommendation = { song: Song; artist: Artist; album: Album };
+
+export type Genre = Song['genre'];

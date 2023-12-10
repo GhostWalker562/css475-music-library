@@ -24,11 +24,11 @@ export const actions = {
 
 		if (!form.valid) return fail(400, { form });
 
+		const session = await locals.auth.validate();
+
+		if (!session) throw redirect(303, '/login');
+
 		try {
-			const session = await locals.auth.validate();
-
-			if (!session) throw redirect(303, '/login');
-
 			await auth.updateUserAttributes(session.user.userId, {
 				username: form.data.username,
 				profile_image_url: form.data.avatar
@@ -38,7 +38,9 @@ export const actions = {
 			if (error instanceof LuciaError) {
 				return fail(400, { error: error.message });
 			}
-			return fail(400, { error: 'Issue occured logging in' });
+			return fail(400, { error: 'Issue occured saving profile' });
 		}
+
+		return { form };
 	}
 } satisfies Actions;

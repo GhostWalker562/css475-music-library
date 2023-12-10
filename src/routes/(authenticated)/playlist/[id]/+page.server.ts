@@ -1,14 +1,14 @@
-import { modifyPlaylistSchema } from '$lib/types/playlist';
+import { updatePlaylistSchema } from '$lib/types/playlist';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { z } from 'zod';
 import { deletePlaylist } from '../../../../../scripts/queries/deletePlaylist';
-import { modifyPlaylist } from '../../../../../scripts/queries/modifyPlaylist';
-import { modifyPlaylistSong } from '../../../../../scripts/queries/modifyPlaylistSong';
+import { updatePlaylist } from '../../../../../scripts/queries/updatePlaylist';
+import { togglePlaylistSong } from '../../../../../scripts/queries/togglePlaylistSong';
 import { selectPlaylist } from '../../../../../scripts/queries/selectPlaylist';
 import type { PageServerLoad } from './$types';
 
-const modifyPlaylistSongSchema = z.object({
+const togglePlaylistSongSchema = z.object({
 	songId: z.string(),
 	method: z.enum(['ADD', 'REMOVE'])
 });
@@ -16,17 +16,17 @@ const modifyPlaylistSongSchema = z.object({
 export const load = (async ({ parent }) => {
 	const data = await parent();
 
-	const modifyPlaylistForm = await superValidate(modifyPlaylistSchema);
+	const updatePlaylistForm = await superValidate(updatePlaylistSchema);
 
-	return { ...data, modifyPlaylistForm };
+	return { ...data, updatePlaylistForm };
 }) satisfies PageServerLoad;
 
 export const actions = {
-	modifyPlaylistSongs: async ({ locals, params, request }) => {
+	togglePlaylistSong: async ({ locals, params, request }) => {
 		if (!params.id) return fail(404);
 
 		const session = await locals.auth.validate();
-		const form = await superValidate(request, modifyPlaylistSongSchema);
+		const form = await superValidate(request, togglePlaylistSongSchema);
 
 		if (!form.valid) return fail(400, { form });
 
@@ -38,18 +38,18 @@ export const actions = {
 
 		let value: boolean;
 		if (form.data.method === 'ADD') {
-			value = await modifyPlaylistSong(params.id, form.data.songId, 'ADD');
+			value = await togglePlaylistSong(params.id, form.data.songId, 'ADD');
 		} else if (form.data.method === 'REMOVE') {
-			value = await modifyPlaylistSong(params.id, form.data.songId, 'REMOVE');
+			value = await togglePlaylistSong(params.id, form.data.songId, 'REMOVE');
 		} else return fail(405);
 
 		return { isAdded: value };
 	},
-	modifyPlaylist: async ({ locals, params, request }) => {
+	updatePlaylist: async ({ locals, params, request }) => {
 		if (!params.id) return fail(404);
 
 		const session = await locals.auth.validate();
-		const form = await superValidate(request, modifyPlaylistSchema);
+		const form = await superValidate(request, updatePlaylistSchema);
 
 		if (!form.valid) return fail(400, { form });
 
@@ -59,7 +59,7 @@ export const actions = {
 
 		if (playlist.at(0)?.userId !== session?.user.userId) return fail(403);
 
-		await modifyPlaylist(params.id, form.data.name);
+		await updatePlaylist(params.id, form.data.name);
 
 		throw redirect(303, `/playlist/${params.id}`);
 	},

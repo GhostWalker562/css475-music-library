@@ -7,6 +7,7 @@
 	import Separator from '$ui/separator/separator.svelte';
 	import { getContext } from 'svelte';
 	import type { SuperValidated } from 'sveltekit-superforms';
+	import DeleteConfirmationForm from './DeleteConfirmationForm.svelte';
 
 	export let playlist: Playlist;
 	export let form: SuperValidated<CreatePlaylistSchema>;
@@ -17,8 +18,6 @@
 
 	let isDeleting = false;
 
-	let confirmingDeletion = false;
-
 	$: isDialogOpen = (dialog as any)?.states?.open;
 
 	// View
@@ -27,16 +26,16 @@
 </script>
 
 <Form.Root
-	action={`/playlist/${playlist.id}?/modifyPlaylist`}
+	action={`/playlist/${playlist.id}?/updatePlaylist`}
 	method="POST"
 	{form}
 	schema={createPlaylistSchema}
 	let:config
 	options={{
 		onSubmit: () => (isModifying = true),
-		onResult: () => {
+		onResult: (e) => {
 			isModifying = false;
-			$isDialogOpen = false;
+			if (e.result.type !== 'failure') $isDialogOpen = false;
 		}
 	}}
 >
@@ -55,35 +54,9 @@
 
 <Separator class="my-4" />
 
-<form
+<DeleteConfirmationForm
+	bind:isDeleting
 	action={`/playlist/${playlist.id}?/deletePlaylist`}
-	method="POST"
-	use:enhance={() => {
-		isDeleting = true;
-		return async ({ result }) => await applyAction(result);
-	}}
->
-	{#if confirmingDeletion}
-		<Button variant="destructive" type="submit" isLoading={isDeleting} disabled={isLoading}
-			>Confirm Delete</Button
-		>
-		<Button
-			variant="secondary"
-			type="button"
-			isLoading={isDeleting}
-			class={isDeleting ? 'hidden' : ''}
-			on:click={() => {
-				confirmingDeletion = false;
-			}}
-		>
-			Cancel
-		</Button>
-		<p class="text-xs my-4 text-red-500">
-			You will not be able to recover this playlist once it has been deleted.
-		</p>
-	{:else}
-		<Button variant="destructive" type="button" on:click={() => (confirmingDeletion = true)}>
-			Delete Playlist
-		</Button>
-	{/if}
-</form>
+	label="Delete Playlist"
+	warning="You will not be able to recover this playlist once it has been deleted."
+/>

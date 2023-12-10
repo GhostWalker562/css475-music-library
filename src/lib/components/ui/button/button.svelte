@@ -4,7 +4,7 @@
 	import { cn } from '$lib/utils';
 	import { buttonVariants, type Props, type Events } from '.';
 
-	type $$Props = Props & { isLoading?: boolean; loadingProps?: Spinner['$$prop_def'] };
+	type $$Props = Props & { loadingProps?: Spinner['$$prop_def'] };
 	type $$Events = Events;
 
 	let className: $$Props['class'] = undefined;

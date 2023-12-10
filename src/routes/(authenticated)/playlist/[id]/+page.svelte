@@ -2,7 +2,7 @@
 	import AccountImage from '$lib/components/AccountImage.svelte';
 	import GenericEmptyState from '$lib/components/GenericEmptyState.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
-	import ModifyPlaylistForm from '$lib/components/forms/ModifyPlaylistForm.svelte';
+	import ModifyPlaylistForm from '$lib/components/forms/UpdatePlaylistForm.svelte';
 	import TracksTable from '$lib/components/tables/TracksTable';
 	import Button from '$ui/button/button.svelte';
 	import * as Sheet from '$ui/sheet';
@@ -38,7 +38,7 @@
 							<Sheet.Title>Modify Playlist</Sheet.Title>
 							<Sheet.Description>Enter a new name for your playlist.</Sheet.Description>
 						</Sheet.Header>
-						<ModifyPlaylistForm playlist={data.playlist} form={data.modifyPlaylistForm} />
+						<ModifyPlaylistForm playlist={data.playlist} form={data.updatePlaylistForm} />
 					</Sheet.Content>
 				</Sheet.Root>
 			{/if}

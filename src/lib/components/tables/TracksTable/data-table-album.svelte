@@ -5,6 +5,6 @@
 	export let href: string;
 </script>
 
-<Button {href} variant="link">
+<Button {href} variant="link" class="-translate-x-4">
 	{name}
 </Button>

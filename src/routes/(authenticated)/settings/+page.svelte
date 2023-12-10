@@ -13,6 +13,7 @@
 	import { transformCloudinaryURL } from '$lib/utils/transformCloudinaryUrl';
 	import { mode, resetMode, setMode } from 'mode-watcher';
 	import type { ActionData, PageData } from './$types';
+	import { ArrowUpRight } from 'lucide-svelte';
 
 	export let data: PageData;
 	const user = data.user;
@@ -110,6 +111,17 @@
 				<Select.Item value="system">System</Select.Item>
 			</Select.Content>
 		</Select.Root>
-		<UploadButton />
+	</div>
+
+	<br />
+	<br />
+
+	<SectionHeader title="Artist" subtitle="Manage your artist profile" />
+	<div class="flex flex-col gap-2">
+		<Label for="theme">Go to Profile</Label>
+		<Button class="w-fit" variant="secondary" href="/settings/artist">
+			Artist Profile
+			<ArrowUpRight class="w-4 h-4 ml-1" />
+		</Button>
 	</div>
 </div>
