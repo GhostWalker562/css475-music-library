@@ -43,4 +43,6 @@ You can preview the production build with `npm run preview`.
 
 ## Deployment
 
+Landing Page Deployment: https://skpi.vercel.app/
+
 Live deployment: https://skypix.vercel.app
