@@ -38,7 +38,7 @@
 	<Form.Field {config} name="bio">
 		<Form.Item>
 			<Form.Label />
-			<Form.Textarea class="w-1/4" />
+			<Form.Textarea />
 			<Form.Description>Your bio for your artist profile.</Form.Description>
 			<Form.Validation />
 		</Form.Item>

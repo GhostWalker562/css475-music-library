@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex items-center w-full">
-	<CoverImage src={undefined} fallbackSeed={undefined} class="w-8 h-8" />
+	<CoverImage src={undefined} fallbackSeed={name} class="w-8 h-8" />
 	<Button variant="link" href={`/playlist/${playlistId}`}>
 		{name}
 	</Button>

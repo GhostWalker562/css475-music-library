@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { selectPlaylistCreator } from '../../../../../scripts/queries/selectPlaylistCreator';
-import { selectPlaylistTracksWithUserLikes } from '../../../../../scripts/queries/selectPlaylistTracksWithUserLikes';
+import { selectPlaylistTracksWithLikes } from '../../../../../scripts/queries/selectPlaylistTracksWithLikes';
 import type { LayoutServerLoad } from './$types';
 
 export const load = (async ({ locals, params }) => {
@@ -10,7 +10,7 @@ export const load = (async ({ locals, params }) => {
 
 	const [playlistCreator, tracks] = await Promise.all([
 		(async () => (await selectPlaylistCreator(params.id)).at(0))(),
-		selectPlaylistTracksWithUserLikes(session.user.userId, params.id)
+		selectPlaylistTracksWithLikes(session.user.userId, params.id)
 	]);
 
 	if (!playlistCreator) throw redirect(303, '/');

@@ -2,7 +2,7 @@ import { redirect, type Actions, fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { auth } from '$lib/server/lucia';
 import { selectAllUserRecommendedTracks } from '../../../scripts/queries/selectAllUserRecommendedTracks';
-import { selectAllTracksLimited } from '../../../scripts/queries/selectAllTracksLimited';
+import { selectAllTracks } from '../../../scripts/queries/selectAllTracks';
 
 export const load = (async ({ locals, setHeaders }) => {
 	const session = await locals.auth.validate();
@@ -15,7 +15,7 @@ export const load = (async ({ locals, setHeaders }) => {
 	});
 
 	return {
-		tracks: selectAllTracksLimited(10),
+		tracks: selectAllTracks(10),
 		recommendations: selectAllUserRecommendedTracks(session.user.userId)
 	};
 }) satisfies PageServerLoad;

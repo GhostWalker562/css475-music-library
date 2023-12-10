@@ -2,7 +2,7 @@ import { db } from '$lib/db';
 import { album, albumSongs, artist, song, userLikes } from '$lib/db/schema';
 import { eq, and } from 'drizzle-orm';
 
-export const selectArtistTracksWithUserLikes = (userId: string, artistId: string) =>
+export const selectArtistTracksWithLikes = (userId: string, artistId: string) =>
 	db
 		.select()
 		.from(song)

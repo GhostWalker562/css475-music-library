@@ -47,7 +47,7 @@
 	}
 </script>
 
-<div class="px-2">
+<div class="px-2 min-h-full">
 	<SectionHeader title="Profile" subtitle="Edit your profile" />
 	<form
 		class="grid max-w-lg"

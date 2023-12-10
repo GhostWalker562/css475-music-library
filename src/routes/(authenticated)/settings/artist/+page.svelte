@@ -22,7 +22,7 @@
 
 <Sheet.Root>
 	<Sheet.Trigger asChild let:builder>
-		<div class="px-2">
+		<div class="px-2 min-h-full">
 			<BackButton defaultRoute="/settings" label="Settings" />
 
 			<SectionHeader title="Artist Profile" subtitle="Manage your artist profile" />
