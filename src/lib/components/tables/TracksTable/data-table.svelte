@@ -5,6 +5,7 @@
 	import { addSelectedRows } from 'svelte-headless-table/plugins';
 	import { writable } from 'svelte/store';
 	import DataTableActions from './data-table-actions.svelte';
+	import DataTableAlbum from './data-table-album.svelte';
 	import DataTableName from './data-table-name.svelte';
 
 	export let data: Track[];
@@ -50,7 +51,16 @@
 					trackId: value.trackId
 				})
 		}),
-		table.column({ id: 'album', accessor: (e) => e.album.name, header: 'Album' }),
+		table.column({
+			id: 'album',
+			accessor: (e) => ({ name: e.album.name, id: e.album.id }),
+			header: 'Album',
+			cell: ({ value }) =>
+				createRender(DataTableAlbum, {
+					href: `/album/${value.id}`,
+					name: value.name
+				})
+		}),
 		table.column({
 			id: 'actions',
 			accessor: (e) => ({

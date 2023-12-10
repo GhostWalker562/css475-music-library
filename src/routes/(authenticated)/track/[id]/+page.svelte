@@ -11,8 +11,8 @@
 	import Card from '$lib/components/ui/card/card.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
 	import type { ActionResult } from '@sveltejs/kit';
-	import type { PageData } from './$types';
 	import { Album, Heart, Search } from 'lucide-svelte';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 
@@ -53,7 +53,7 @@
 			<form use:enhance={enhanceLikeForm} action="?/toggleLike" method="post">
 				<LikeButton type="submit" value={isLiked} />
 			</form>
-			<PreviewButton src={data.track.song.previewUrl} class={''} />
+			<PreviewButton src={data.track.song.previewUrl} />
 		</div>
 	</SectionHeader>
 

@@ -9,7 +9,7 @@
 
 	export let variant: 'button' | 'icon' = 'button';
 	export let src: string | null | undefined;
-	export let className: string;
+	export let className: string | null | undefined = undefined;
 	export { className as class };
 
 	$: onPreview = () => {

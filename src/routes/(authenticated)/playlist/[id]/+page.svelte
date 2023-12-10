@@ -1,10 +1,13 @@
 <script lang="ts">
 	import AccountImage from '$lib/components/AccountImage.svelte';
+	import GenericEmptyState from '$lib/components/GenericEmptyState.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
+	import ModifyPlaylistForm from '$lib/components/forms/ModifyPlaylistForm.svelte';
 	import TracksTable from '$lib/components/tables/TracksTable';
+	import Button from '$ui/button/button.svelte';
+	import * as Sheet from '$ui/sheet';
 	import { Album } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import Button from '$ui/button/button.svelte';
 
 	export let data: PageData;
 </script>
@@ -25,21 +28,32 @@
 			</div>
 			•
 			{data.tracks.length} tracks
+			{#if data.creator.id === data.user.userId}
+				<Sheet.Root>
+					<Sheet.Trigger asChild let:builder>
+						<Button builders={[builder]} variant="secondary" class="ml-2">Modify Playlist</Button>
+					</Sheet.Trigger>
+					<Sheet.Content>
+						<Sheet.Header class="pb-4">
+							<Sheet.Title>Modify Playlist</Sheet.Title>
+							<Sheet.Description>Enter a new name for your playlist.</Sheet.Description>
+						</Sheet.Header>
+						<ModifyPlaylistForm playlist={data.playlist} form={data.modifyPlaylistForm} />
+					</Sheet.Content>
+				</Sheet.Root>
+			{/if}
 		</div>
 	</SectionHeader>
 
 	{#if data.tracks.length === 0}
-		<div class="py-24">
-			<div class="flex flex-col items-center gap-4">
-				<Album class="w-24 h-24 opacity-80 stroke-1" />
-				<h2 class="text-2xl font-bold">This playlist is empty</h2>
-				<p class="text-sm text-center max-w-xs opacity-80">
-					You can add tracks to this playlist by clicking the
-					<span class="font-bold">Add to Playlist</span> button on any track.
-				</p>
-				<Button size="lg" href="/browse">Browse Songs</Button>
-			</div>
-		</div>
+		<GenericEmptyState icon={Album}>
+			<h2 slot="title">This playlist is empty</h2>
+			<p slot="subtitle">
+				You can add tracks to this playlist by clicking the
+				<span class="font-bold">Add to Playlist</span> button on any track.
+			</p>
+			<Button size="lg" href="/browse">Browse Songs</Button>
+		</GenericEmptyState>
 	{:else}
 		<TracksTable data={data.tracks} userId={data.user.userId} />
 	{/if}
