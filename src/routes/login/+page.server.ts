@@ -40,6 +40,6 @@ export const actions = {
 			return fail(400, { error: 'Issue occured logging in' });
 		}
 
-		throw redirect(303, '/');
+		throw redirect(303, '/?signedIn=True');
 	}
 } satisfies Actions;

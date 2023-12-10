@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import { page } from '$app/stores';
 	import Logo from '$lib/components/Logo.svelte';
 	import ShapeBackground from '$lib/components/ShapeBackground.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
@@ -9,11 +10,17 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
+	import posthog from 'posthog-js';
 	import type { ActionData } from './$types';
+	import { onMount } from 'svelte';
 
 	export let form: ActionData;
 
 	let isFormSubmitting = false;
+
+	onMount(() => {
+		if ($page.url.searchParams.get('signedOut') === 'True') posthog.reset();
+	});
 </script>
 
 <ViewTransition />

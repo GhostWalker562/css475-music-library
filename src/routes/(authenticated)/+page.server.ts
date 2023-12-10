@@ -33,6 +33,6 @@ export const actions = {
 		locals.auth.setSession(null);
 
 		// next we redirect to the login page
-		throw redirect(303, '/login');
+		throw redirect(303, '/login?signedOut=True');
 	}
 } satisfies Actions;

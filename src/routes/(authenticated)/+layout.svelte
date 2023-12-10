@@ -1,10 +1,19 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Menu from '$lib/components/Menu.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import ViewTransition from '$lib/components/ViewTransition.svelte';
+	import posthog from 'posthog-js';
 	import type { LayoutData } from './$types';
+	import { onMount } from 'svelte';
 
 	export let data: LayoutData;
+
+	onMount(() => {
+		if ($page.url.searchParams.get('signedIn') === 'True' && data.user) {
+			posthog.identify(data.user.userId, { username: data.user.username, email: data.user.email });
+		}
+	});
 </script>
 
 <ViewTransition />

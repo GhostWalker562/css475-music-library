@@ -5,10 +5,37 @@
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { inject } from '@vercel/analytics';
 	import type { LayoutData } from './$types';
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import posthog from 'posthog-js';
 
 	export let data: LayoutData;
 
 	inject({ mode: dev ? 'development' : 'production' });
+
+	let currentPath = '';
+
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			const unsubscribePage = page.subscribe(($page) => {
+				if (currentPath && currentPath !== $page.url.pathname) {
+					posthog.capture('$pageleave');
+				}
+				currentPath = $page.url.pathname;
+				posthog.capture('$pageview');
+			});
+
+			const handleBeforeUnload = () => {
+				posthog.capture('$pageleave');
+			};
+			window.addEventListener('beforeunload', handleBeforeUnload);
+
+			return () => {
+				unsubscribePage();
+				window.removeEventListener('beforeunload', handleBeforeUnload);
+			};
+		}
+	});
 </script>
 
 <ModeWatcher />
