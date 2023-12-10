@@ -9,6 +9,8 @@ import type { PageServerLoad } from './$types';
 import { updateSongSchema } from '$lib/types/song';
 import { updateSong } from '../../../../../scripts/queries/updateSong';
 import { deleteSong } from '../../../../../scripts/queries/deleteSong';
+import { selectTotalLikes } from '../../../../../scripts/queries/selectTotalLikes';
+import { selectTotalPlaylists } from '../../../../../scripts/queries/selectTotalPlaylists';
 
 const toggleLikeSchema = z.object({ isLiked: z.boolean() });
 
@@ -29,7 +31,11 @@ export const load = (async ({ locals, params }) => {
 		(albumTrack) => albumTrack.song.id !== track.song.id
 	);
 
-	return { track, isLiked, albumTracks };
+	const totalLikes = await selectTotalLikes(track.artist.id);
+
+	const totalPlaylists = await selectTotalPlaylists(track.artist.id);
+
+	return { track, isLiked, albumTracks, totalLikes, totalPlaylists };
 }) satisfies PageServerLoad;
 
 export const actions = {
