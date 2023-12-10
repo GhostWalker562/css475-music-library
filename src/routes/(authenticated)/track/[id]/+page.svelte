@@ -13,10 +13,12 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import { Album, Heart, Search } from 'lucide-svelte';
 	import type { PageData } from './$types';
-
+	
 	export let data: PageData;
 
 	$: isLiked = data.isLiked;
+	$: totalLikes = data.totalLikes;
+	$: totalPlaylists = data.totalPlaylists;
 
 	const enhanceLikeForm = () => {
 		isLiked = !isLiked;
@@ -64,7 +66,7 @@
 				<div class="flex items-center justify-between">
 					<div class="flex items-start flex-col">
 						<h1 class="text-sm">Total Likes</h1>
-						<p class="text-2xl font-bold">3210</p>
+						<p class="text-2xl font-bold">{totalLikes}</p>
 					</div>
 					<Heart class="opacity-50" />
 				</div>
@@ -72,7 +74,7 @@
 				<div class="flex items-center justify-between">
 					<div class="flex items-start flex-col">
 						<h1 class="text-sm">Total Playlists</h1>
-						<p class="text-2xl font-bold">14</p>
+						<p class="text-2xl font-bold">{totalPlaylists}</p>
 					</div>
 					<Album class="opacity-50" />
 				</div>
