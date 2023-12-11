@@ -1,31 +1,22 @@
 <script lang="ts">
-	import { applyAction, enhance } from '$app/forms';
 	import ArtistCard from '$lib/components/ArtistCard.svelte';
 	import BackButton from '$lib/components/BackButton.svelte';
 	import CoverImage from '$lib/components/CoverImage.svelte';
-	import LikeButton from '$lib/components/LikeButton.svelte';
+	import FormLikeButton from '$lib/components/FormLikeButton.svelte';
 	import PreviewButton from '$lib/components/PreviewButton.svelte';
 	import SectionHeader from '$lib/components/SectionHeader.svelte';
 	import TrackDropdown from '$lib/components/TrackDropdown.svelte';
 	import TracksTable from '$lib/components/tables/TracksTable';
 	import Card from '$lib/components/ui/card/card.svelte';
 	import Separator from '$lib/components/ui/separator/separator.svelte';
-	import type { ActionResult } from '@sveltejs/kit';
 	import { Album, Heart, Search } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	
+
 	export let data: PageData;
 
 	$: isLiked = data.isLiked;
 	$: totalLikes = data.totalLikes;
 	$: totalPlaylists = data.totalPlaylists;
-
-	const enhanceLikeForm = () => {
-		isLiked = !isLiked;
-		return async ({ result }: { result: ActionResult }) => {
-			await applyAction(result);
-		};
-	};
 </script>
 
 <div class="px-2 min-h-screen pb-24">
@@ -52,10 +43,8 @@
 				albumId={data.track.album.id}
 				showGoToSong={false}
 			/>
-			<form use:enhance={enhanceLikeForm} action="?/toggleLike" method="post">
-				<LikeButton type="submit" value={isLiked} />
-			</form>
-			<PreviewButton src={data.track.song.previewUrl} />
+			<FormLikeButton track={data.track} value={isLiked} />
+			<PreviewButton src={data.track.song.previewUrl} songName={data.track.song.name} />
 		</div>
 	</SectionHeader>
 

@@ -1,8 +1,10 @@
 {
-    "recommendations": [
-        "svelte.svelte-vscode",
-        "bradlc.vscode-tailwindcss",
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint"
-    ]
+	"recommendations": [
+		"svelte.svelte-vscode",
+		"bradlc.vscode-tailwindcss",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"ckolkman.vscode-postgres",
+		"inferrinizzard.prettier-sql-vscode"
+	]
 }

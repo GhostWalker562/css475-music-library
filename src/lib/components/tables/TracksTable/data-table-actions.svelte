@@ -27,7 +27,7 @@
 
 <div class="flex justify-end gap-2 lg:gap-4">
 	{#if previewUrl}
-		<PreviewButton variant="icon" src={previewUrl} />
+		<PreviewButton variant="icon" src={previewUrl} songName={track.song.name} />
 	{/if}
 
 	{#if artistId === userId && songForm}
@@ -50,7 +50,7 @@
 	{/if}
 
 	{#if showLikeButton}
-		<FormLikeButton trackId={track.song.id} {value} />
+		<FormLikeButton {track} {value} />
 	{/if}
 
 	<TrackDropdown trackId={track.song.id} {userId} {artistId} {albumId} />
