@@ -5,4 +5,4 @@ import { env } from '$env/dynamic/private';
 
 export const pool = createPool({ connectionString: env.POSTGRES_URL });
 
-export const db = drizzle(pool, { schema });
+export const db = drizzle(pool, { schema, logger: true });

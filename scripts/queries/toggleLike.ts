@@ -11,6 +11,5 @@ export const toggleLike = (userId: string, songId: string, like: boolean) =>
 				.delete(userLikes)
 				.where(and(eq(userLikes.songId, songId), eq(userLikes.userId, userId)));
 		}
-
 		return like;
 	});
