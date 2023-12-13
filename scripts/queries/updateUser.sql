@@ -1,11 +1,10 @@
 UPDATE "auth_user"
 SET
     username = $1,
-    github_username = $2,
-    email = $3,
-    created_at = $4,
-    profile_image_url = $5
+    email = $2,
+    created_at = $3,
+    profile_image_url = $4
 WHERE
-    id = $6;
+    id = $5;
 
--- params: [username: string, github_username: string, email: string, created_at: string, profile_image_url: string, id: string]
+-- params: [username: string, email: string, createdAt: string, profileImageUrl: string, id: string]
