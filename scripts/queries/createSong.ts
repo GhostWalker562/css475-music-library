@@ -11,11 +11,13 @@ export const createSong = (
 	genre: Genre
 ) =>
 	db.transaction(async (tx) => {
+		const songId = generateRandomString(50);
+
 		const insertedSong = (
 			await tx
 				.insert(song)
 				.values({
-					id: generateRandomString(50),
+					id: songId,
 					artistId: artistId,
 					name,
 					previewUrl,
@@ -26,10 +28,7 @@ export const createSong = (
 
 		if (!insertedSong) throw new Error('Failed to insert song');
 
-		await tx.insert(albumSongs).values({
-			albumId,
-			songId: insertedSong.id
-		});
+		await tx.insert(albumSongs).values({ albumId, songId });
 
 		return insertedSong;
 	});
