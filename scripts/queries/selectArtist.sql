@@ -8,4 +8,4 @@ WHERE
 LIMIT
   1;
 
--- params: artistId: string]
+-- params: [artistId: string]
